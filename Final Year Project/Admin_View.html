@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+    
+
+
+
+
+
+#search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+   
+}
+
+#search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 900px;
+    border-radius: 20px;
+    margin-right: 20px; ;
+  
+  
+}
+
+#search-input:focus {
+    border-color: #007BFF;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100px;
+
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+    
+
+.Information{
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 450px;
+    height: 600px;
+    margin-right: 15px;
+}
+
+.user_container{
+    display: flex;
+}
+
+.button_user{
+    display: flex;
+    gap: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.user_container{
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 15px 15px;
+    height: 600px;
+}
+.Add{
+    margin-left: 520px;
+ 
+}
+
+.Sheet_bar{
+    margin-left: 20px;
+}
+
+.Delete {
+    margin-left: 650px;
+    width: 100px;
+    height:35px;
+    margin-top: 5px;
+}
+
+table {
+    width: 870px;
+    border-collapse: collapse;
+    margin-right: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #007BFF;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+.delete-btn {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+    </style>
+
+    <script> 
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const query = document.getElementById('search-input').value;
+            if (query) {
+                window.location.href = '/search?query=' + encodeURIComponent(query);
+            }
+        });
+        </script>
+</head>
+<body>
+    <div class="search-container">
+        <form id="search-form" action="/search" method="GET">
+            <input type="text" placeholder="Search.." name="query" id="search-input">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="user_container">
+
+        <div class="user_button_name">
+
+            <div class="button_user">
+                <button>Users</button>
+                <button>Staffs</button>
+                <button class="Add">Add User</button>
+
+            </div>
+      
+            <div class="User">
+                <div class="Sheet_bar">
+                    <table id="userTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>User ID</th>
+                                <th>User Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>12345</td>
+                                <td>john.doe@example.com</td>
+                                <td><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>67890</td>
+                                <td>jane.smith@example.com</td>
+                                <td><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="Information">
+
+
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mainpage</title>
+
+    <link rel="stylesheet" type="text/css" href="Mainpage.CSS"/>
+    <script> scr="/Users/mingkeatchoi/Downloads/Final Year Project/Mainpage.js" </script>
+</head>
+<body>
+    <header class="main">
+        <div class="navbar">
+            <div class="Icon">
+                <img src="Pic/Logo.jpg" alt="Logo" class="logo">
+            </div>
+            
+            <div class="menu">
+                <nav class="navigation">
+                    <ul>
+                        <li><a href="/Users/mingkeatchoi/Downloads/Final Year Project/Mainpage.html ">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li>
+                            <a href="#" id="serviceButton">Service</a>
+                            <div id="submenu" class="hidden submenu">
+                            <ul>
+                                <li><a href="/Users/mingkeatchoi/Downloads/Final Year Project/Feeback.html">Feedback</a></li>
+                                <li><a href="#">FAQs</a></li>
+                                <li><a href="#">菜单项 3</a></li>
+                            </ul>
+                            </div>
+                        </li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="a">Help</a></li>
+                        <button onclick="window.location.href='#'" class="Login">Login</button>
+
+                    </ul>
+
+                </nav>
+                
+            </div>
+
+        </div>
+
+       
+    </header>
+
+    <div class="content">
+
+        
+    </div>
+
+    <div class="Bottom">
+        <h5 class="Bottom_Text">
+            Car Monitoring And Service (Car Now) , Inc. is a 501(c)(3) organisation registered in the Malaysia. (Tax ID #06-0726487)
+
+        </h5>
+        
+
+
+    </div>
+
+    <script>
+      document.getElementById('serviceButton').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            var submenu = document.getElementById('submenu');
+            submenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>
