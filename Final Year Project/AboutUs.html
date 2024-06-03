@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" type="text/css" href="AboutUs.css"/>
+</head>
+<body>
+    <header class="main">
+        <div class="navbar">
+            <div class="Icon">
+                <img src="Pic/Logo.jpg" alt="Logo" class="logo">
+            </div>
+            <div class="menu">
+                <nav class="navigation">
+                    <ul>
+                        <li><a href="/Users/mingkeatchoi/Downloads/Final Year Project/Mainpage.html">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li>
+                            <a href="#" id="serviceButton">Service</a>
+                            <div id="submenu" class="hidden submenu">
+                                <ul>
+                                    <li><a href="/Users/mingkeatchoi/Downloads/Final Year Project/Feeback.html">Feedback</a></li>
+                                    <li><a href="#">FAQs</a></li>
+                                    <li><a href="#">菜单项 3</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="a">Help</a></li>
+                        <button onclick="window.location.href='#'" class="Login">Login</button>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <section class="about-us">
+            <h1>About Us</h1>
+            <p>Welcome to Car Monitoring and Service (Car Now), your trusted partner in vehicle maintenance and monitoring. We are dedicated to provide the best service to ensure your vehicle remains in top condition.</p>
+            <h2>Our Mission</h2>
+            <p>Our mission is to offer reliable and affordable car maintenance and monitoring services. We strive to provide exceptional customer service and ensure the safety and longevity of your vehicle.</p>
+            <h2>Our Team</h2>
+            <p>We have a team of experienced and skilled professionals who are passionate about cars and committed to delivering high-quality service. Our team is here to assist you with all your car maintenance needs.</p>
+            <h2>Contact Us</h2>
+            <p>If you have any questions or need further information, please don't hesitate to <a href="Contact.html">contact us</a>. We are here to help!</p>
+        </section>
+    </div>
+
+    <div class="Bottom">
+        <h5 class="Bottom_Text">
+            Car Monitoring And Service (Car Now), Inc. is a 501(c)(3) organisation registered in Malaysia. (Tax ID #06-0726487)
+        </h5>
+    </div>
+
+    <script>
+        document.getElementById('serviceButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            var submenu = document.getElementById('submenu');
+            submenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
