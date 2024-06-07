@@ -186,8 +186,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "
-SELECT 
+$sql = "SELECT 
     b.date,
     c.car_plate,c.brand,c.model,c.color,c.year,
     i.item_name,i.cost,
