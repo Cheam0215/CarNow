@@ -175,160 +175,153 @@
 
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Carnow";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "Carnow";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT 
-b.date,
-c.car_plate,c.brand,c.model,c.color,c.year,
-i.item_name,i.cost,
-m.quantity_used
-p.payment_id,p.time,p.amount,p.payment_method
-u.username,u.email,u.contact_number,u.ic_number
-FROM 
-booking b
-JOIN 
-car c ON b.car_id = c.car_id
-JOIN 
-inventory i ON c.inventory_id = i.inventory_id
-JOIN 
-maintenance m ON c.car_id = m.car_id
-JOIN 
-payment p ON b.payment_id = p.payment_id
-JOIN 
-user u ON b.user_id = u.user_id";
-
-
-    $result = $conn->query($sql);
-
-
-if ($result && $result->num_rows > 0) {
-
-    while ($row = $result->fetch_assoc()) {
-        $date = $row[' b.date'];
-        $car_plate = $row[' c.car_plate']; 
-        $brand = $row['c.brand'];
-        $model = $row['c.model'];
-        $color = $row['c.color'];
-        $year = $row['c.year'];
-        $item_name = $row['i.item_name'];
-        $amount = $row['i.amount'];
-        $payment_id = $row[' p.payment_id'];
-        $time = $row['p.time'];
-        $amount = $row['p.amount'];
-        $username = $row[' u.username'];
-        $email = $row['u.email'];
-        $contact_number = $row['u.contact_number'];
-        $ic_number = $row['u.ic_number'];
-        $quantity = $row['m.quantity_used'];
-        $payment_method = $ row ['p.payment_method']
-       
-
-
-        $sum = $cost * $quantity;
-
-
-
-      
-echo '<div class="container" id="receipt-content">';
-echo '    <div class="header">';
-echo '        <img src="Logo.png" alt="Service Center Logo">';
-echo '        <h1>Carnow Sdn.Bhd</h1>';
-echo '        <p>Address: PT 24337, Aman Kerayong Makmur, Mukim Triang, 28200 Bandar Bera, Pahang</p>';
-echo '        <p>Phone: +603 3362 0398  | Email: Carnow@servicecenter.com | Website: Carnow.servicecenter.com</p>';
-echo '    </div>';
-
-echo '    <div class="section">';
-echo '        <div class="section-title">Receipt Information</div>';
-echo '        <p><strong>Receipt Number:</strong>'.$payment_id.' </p>';
-echo '        <p><strong>Date of Service:</strong> '.$date.'</p>';
-echo '        <p><strong>Date of Issue:</strong> '.$time.'</p>';
-echo '    </div>';
-
-echo '    <div class="section">';
-echo '        <div class="section-title">Customer Information</div>';
-echo '        <p><strong>Name:</strong>'.$username.'</p>';
-echo '        <p><strong>Ic Number:</strong> '.$ic_number.'</p>';
-echo '        <p><strong>Phone:</strong> '.$contact_number.'</p>';
-echo '        <p><strong>Email:</strong>'.$email.'</p>';
-echo '    </div>';
-
-echo '    <div class="section">';
-echo '        <div class="section-title">Vehicle Information</div>';
-echo '        <p><strong>Make and Model:</strong> '.$brand.' '.$model.'</p>';
-echo '        <p><strong>Year:</strong> '.$year.'</p>';
-echo '        <p><strong>Color:</strong>'.$color.'</p>';
-echo '        <p><strong>Car Plate:</strong> '.$car_plate.'</p>';
-echo '    </div>';
-
-echo '    <div class="section">';
-echo '        <div class="section-title">Service Details</div>';
-echo '        <table class="details-table">';
-echo '            <thead>';
-echo '                <tr>';
-echo '                    <th>Description</th>';
-echo '                    <th>Parts Cost</th>';
-echo '                    <th>Total</th>';
-echo '                </tr>';
-echo '            </thead>';
-echo '            <tbody>';
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $item_name = $row['item_name']; 
-        $quantity = $row['quantity_used']; 
-        $cost = $row['cost']; 
-        $sum = $cost * $quantity;
-
-        echo '                <tr>';
-        echo '                    <td>'.$item_name.'</td>';
-        echo '                    <td>'.$cost.'</td>';
-        echo '                    <td>'.$sum.'</td>';
-        echo '                </tr>';
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-}
 
-echo '            </tbody>';
-echo '        </table>';
-echo '    </div>';
+    $sql = "SELECT 
+    b.date,
+    c.car_plate,c.brand,c.model,c.color,c.year,
+    i.item_name,i.cost,
+    m.quantity_used,
+    p.payment_id,p.time,p.amount,p.payment_method,
+    u.username,u.email,u.contact_number,u.ic_number
+    FROM 
+    booking b
+    JOIN 
+    car c ON b.car_id = c.car_id
+    JOIN 
+    inventory i ON c.inventory_id = i.inventory_id
+    JOIN 
+    maintenance m ON c.car_id = m.car_id
+    JOIN 
+    payment p ON b.payment_id = p.payment_id
+    JOIN 
+    user u ON b.user_id = u.user_id";
 
-echo '    <div class="section">';
-echo '        <div class="section-title">Cost Breakdown</div>';
-echo '        <p><strong>Total Amount Due:</strong> '.$amount.'</p>';
-echo '        <p><strong>Amount Paid:</strong>'.$amount.'</p>';
-echo '        <p><strong>Payment Method:</strong> '.$payment_method.'</p>';
-echo '    </div>';
 
-echo '    <div class="section">';
-echo '        <div class="section-title">Notes and Disclaimers</div>';
-echo '        <p>Thank you for your business! Please retain this receipt for your records.</p>';
-echo '        <p>All services are subject to the terms and conditions provided at the time of service.</p>';
-echo '    </div>';
+        $result = $conn->query($sql);
 
-echo '    <div class="section">';
-echo '        <div class="section-title">Feedback and Contact Information</div>';
-echo '        <p>We value your feedback! Please let us know how we did by visiting .</p>';
-echo '        <p>If you have any follow-up questions or issues, please contact us at +603 3362 0398  or email us at Carnow@servicecenter.com.</p>';
-echo '    </div>';
 
-echo '    <div class="buttons" id="button-section">';
-echo '        <a href="#" class="button" onclick="downloadPDF()">Download as PDF</a>';
-echo '        <a href="Mainpage.html" class="button">Back to Dashboard</a>';
-echo '    </div>';
-echo '</div>';}
+    if ($result && $result->num_rows > 0) {
 
-} else {
-    echo "0 results";
-}
+        while ($row = $result->fetch_assoc()) {
+            $date = $row[' b.date'];
+            $car_plate = $row[' c.car_plate']; 
+            $brand = $row['c.brand'];
+            $model = $row['c.model'];
+            $color = $row['c.color'];
+            $year = $row['c.year'];
+            $item_name = $row['i.item_name'];
+            $amount = $row['i.amount'];
+            $payment_id = $row[' p.payment_id'];
+            $time = $row['p.time'];
+            $amount = $row['p.amount'];
+            $username = $row[' u.username'];
+            $email = $row['u.email'];
+            $contact_number = $row['u.contact_number'];
+            $ic_number = $row['u.ic_number'];
+            $quantity = $row['m.quantity_used'];
+            $payment_method = $ row ['p.payment_method']
+        
+    echo '<div class="container" id="receipt-content">';
+    echo '    <div class="header">';
+    echo '        <img src="Logo.png" alt="Service Center Logo">';
+    echo '        <h1>Carnow Sdn.Bhd</h1>';
+    echo '        <p>Address: PT 24337, Aman Kerayong Makmur, Mukim Triang, 28200 Bandar Bera, Pahang</p>';
+    echo '        <p>Phone: +603 3362 0398  | Email: Carnow@servicecenter.com | Website: Carnow.servicecenter.com</p>';
+    echo '    </div>';
 
-$conn->close();
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Receipt Information</div>';
+    echo '        <p><strong>Receipt Number:</strong>'.$payment_id.' </p>';
+    echo '        <p><strong>Date of Service:</strong> '.$date.'</p>';
+    echo '        <p><strong>Date of Issue:</strong> '.$time.'</p>';
+    echo '    </div>';
+
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Customer Information</div>';
+    echo '        <p><strong>Name:</strong>'.$username.'</p>';
+    echo '        <p><strong>Ic Number:</strong> '.$ic_number.'</p>';
+    echo '        <p><strong>Phone:</strong> '.$contact_number.'</p>';
+    echo '        <p><strong>Email:</strong>'.$email.'</p>';
+    echo '    </div>';
+
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Vehicle Information</div>';
+    echo '        <p><strong>Make and Model:</strong> '.$brand.' '.$model.'</p>';
+    echo '        <p><strong>Year:</strong> '.$year.'</p>';
+    echo '        <p><strong>Color:</strong>'.$color.'</p>';
+    echo '        <p><strong>Car Plate:</strong> '.$car_plate.'</p>';
+    echo '    </div>';
+
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Service Details</div>';
+    echo '        <table class="details-table">';
+    echo '            <thead>';
+    echo '                <tr>';
+    echo '                    <th>Description</th>';
+    echo '                    <th>Parts Cost</th>';
+    echo '                    <th>Total</th>';
+    echo '                </tr>';
+    echo '            </thead>';
+    echo '            <tbody>';
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $item_name = $row['item_name']; 
+            $quantity = $row['quantity_used']; 
+            $cost = $row['cost']; 
+            $sum = $cost * $quantity;
+
+            echo '                <tr>';
+            echo '                    <td>'.$item_name.'</td>';
+            echo '                    <td>'.$cost.'</td>';
+            echo '                    <td>'.$sum.'</td>';
+            echo '                </tr>';
+        }
+    }
+
+    echo '            </tbody>';
+    echo '        </table>';
+    echo '    </div>';
+
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Cost Breakdown</div>';
+    echo '        <p><strong>Total Amount Due:</strong> '.$amount.'</p>';
+    echo '        <p><strong>Amount Paid:</strong>'.$amount.'</p>';
+    echo '        <p><strong>Payment Method:</strong> '.$payment_method.'</p>';
+    echo '    </div>';
+
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Notes and Disclaimers</div>';
+    echo '        <p>Thank you for your business! Please retain this receipt for your records.</p>';
+    echo '        <p>All services are subject to the terms and conditions provided at the time of service.</p>';
+    echo '    </div>';
+
+    echo '    <div class="section">';
+    echo '        <div class="section-title">Feedback and Contact Information</div>';
+    echo '        <p>We value your feedback! Please let us know how we did by visiting .</p>';
+    echo '        <p>If you have any follow-up questions or issues, please contact us at +603 3362 0398  or email us at Carnow@servicecenter.com.</p>';
+    echo '    </div>';
+
+    echo '    <div class="buttons" id="button-section">';
+    echo '        <a href="#" class="button" onclick="downloadPDF()">Download as PDF</a>';
+    echo '        <a href="Mainpage.html" class="button">Back to Dashboard</a>';
+    echo '    </div>';
+    echo '</div>';}
+
+    } else {
+        echo "0 results";
+    }
+
+    $conn->close();
 
 ?>
 
