@@ -116,7 +116,9 @@
                 <span>Total</span>
                 <span>MYR <?php echo $total; ?>.00</span>
                 <input type="hidden" name="total" value="<?php echo $total; ?>">
+                
             </div>
+            <input type="hidden" name="payment_method" value="PayPal">
         </div>
         <button type="submit" name="payment_button" class="paypal-button">Pay Now</button>
     </div>
@@ -145,7 +147,9 @@
                 <span>Total</span>
                 <span>MYR <?php echo $total; ?>.00</span>
                 <input type="hidden" name="total" value="<?php echo $total; ?>">
+                
             </div>
+            <input type="hidden" name="payment_method" value="Touch n Go">
         </div>
         <button type="submit" name="payment_button" class="tng-button">Approve</button>
     </div>
