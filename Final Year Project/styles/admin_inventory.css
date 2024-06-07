@@ -16,7 +16,6 @@
 }
 
 .search-bar input[type="text"] {
-  
   flex: 1;
   width: 200px;
   padding: 8px;
@@ -24,7 +23,11 @@
   border-radius: 10px;
   margin-right: 30px;
   height: 40px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+
 }
+
 
 .search-bar input[type="text"]:focus {
   padding: 20px 8px;
@@ -82,6 +85,10 @@ th {
 
 td{
   font-size: 1.2em;
+  
+  button {
+    height: 51.33px;
+  }
 }
 
 .item_preview {
@@ -133,7 +140,14 @@ td{
 }
 
 .add-button{
-  background-color: #00f208;
+  background-color: #00ff1e;
+}
+
+.edit-button{
+  background-color: yellow;
+}
+
+.add-button, .edit-button{
   color: black;
   font-weight: bold;
   border: none;
@@ -144,18 +158,17 @@ td{
   margin: 4px 2px;
   transition-duration: 0.4s;
   border-radius: 12px;
-
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
 }
 
-.add-button:hover {
+.add-button:hover ,.edit-button:hover{
   transform: scale(0.95);
   transition: all 0.3s ease;
 }
 
-.add-button a, #form-add a {
+.add-button a, #form-add a ,.edit-button a{
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -180,9 +193,9 @@ td{
 }
 
 .edit {
-  background-color: rgb(70, 224, 8);
+  background-color: yellow;
   color: black;
-  border: 1px solid rgb(70, 224, 8);
+  border: 1px solid yellow;
   cursor: pointer;
   padding: 10px 20px;
   text-align: center;
@@ -216,8 +229,11 @@ td{
   }
 }
 
-.add-item {
+.add-item{
   visibility: hidden;
+}
+.add-item, .edit-item {
+
   position: fixed;
   top: 50%;
   left: 50%;
@@ -233,7 +249,7 @@ td{
     margin-top: 30px;
   }
 
-  .add-item-form {
+  .add-item-form, .edit-item-form {
     display: flex;
     flex-direction: column;
 
@@ -254,6 +270,7 @@ td{
       border: 1px solid #ccc;
       border-radius: 5px;
       box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
 
     button {
@@ -280,3 +297,12 @@ td{
   }
 }
 
+.edit-form {
+  display: inline;
+  width: 50px;
+}
+
+.form-group-edit {
+  text-align: center;
+  margin-top: 10px;
+}
