@@ -3,78 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="Adminpage.css" rel="stylesheet">
+    <link href="styles/Adminpage.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
     <title>Admin Webpage</title>
 </head>
 <body>
-    <?php
+<?php
         include("connection.php");
-        $query = "SELECT SUM(m.price - i.cost) AS total_profit
-        FROM maintenance m
-        JOIN inventory i ON m.item_id = i.item_id
-        WHERE m.item_id = i.item_id;";
+        $query = "SELECT SUM(amount) AS gross
+        FROM payment";
+
         $result= mysqli_query($con, $query);
 
-        if ($result ) {
-            // Fetch the total donation amount
+        if ($result) {
             $row = mysqli_fetch_assoc($result);
-            $totalProfit = $row['total_profit'];
-    
-            // Display the total donation amount
+            $totalRevenue = $row['gross'];
+            $totalProfit = $totalRevenue * 0.25;
+
             if ($totalProfit !== null) {
                 $totalProfit = "$" . number_format($totalProfit, 2);
             } else {
                 $totalProfit = "$" . number_format(0, 2);
             }
-        } else {
-            // Display donation as $0 if the table is empty
-            echo "<h1>No Record Thus Far</h1>";
-            echo "Error: " . mysqli_error($con); // Add this line for debugging
-        }
 
-        $query2 = "SELECT SUM(price) AS total_revenue from maintenance;";
-        $result2= mysqli_query($con, $query2);
-
-        if ($result2) {
-            // Fetch the total donation amount
-            $row = mysqli_fetch_assoc($result2);
-            $totalRevenue = $row['total_revenue'];
-    
-            // Display the total donation amount
             if ($totalRevenue !== null) {
                 $totalRevenue = "$" . number_format($totalRevenue, 2);
             } else {
                 $totalRevenue = "$" . number_format(0, 2);
             }
+
+
         } else {
-            // Display donation as $0 if the table is empty
+
             echo "<h1>No Record Thus Far</h1>";
-            echo "Error: " . mysqli_error($con); // Add this line for debugging
+            echo "Error: " . mysqli_error($con); 
         }
 
         $query3 = "SELECT SUM(cost) AS total_cost from inventory;";
         $result3= mysqli_query($con, $query3);
 
         if ($result3) {
-            // Fetch the total donation amount
             $row = mysqli_fetch_assoc($result3);
             $totalCost = $row['total_cost'];
     
-            // Display the total donation amount
+
             if ($totalCost !== null) {
                 $totalCost = "$" . number_format($totalCost, 2);
             } else {
                 $totalCost = "$" . number_format(0, 2);
             }
         } else {
-            // Display donation as $0 if the table is empty
+
             echo "<h1>No Record Thus Far</h1>";
-            echo "Error: " . mysqli_error($con); // Add this line for debugging
+            echo "Error: " . mysqli_error($con); 
         }
 
 
-        $query4 = "SELECT COUNT(maintenance_id) AS total_of_sales from maintenance;";
+        $query4 = "SELECT COUNT(payment_id) AS total_of_sales from payment;";
         $result4= mysqli_query($con, $query4);
 
         if ($result4) {
@@ -114,7 +99,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="Admin_Page.html" class="active">
+                <a href="Admin_Page.php" class="active">
                     <span class="material-symbols-sharp">
                         dashboard
                     </span>
@@ -139,7 +124,7 @@
                     </span>
                     <h3>Staff</h3>
                 </a>
-                <a href="#">
+                <a href="admin_inventory.php">
                     <span class="material-symbols-sharp">
                     inventory_2
                     </span>
@@ -217,6 +202,10 @@
                 </div>
                     
             </div>
+
+            
+
+
                                     
         </main>
 
@@ -239,8 +228,7 @@
       
     </div>
 
-
-
+    
 
 
 
