@@ -21,16 +21,22 @@
         $booking_confirmation = "Booking Registered";
         $car_description = $_POST['hidden-description'];
 
-        $query = "INSERT INTO booking (car_plate, service_type, booking_date, booking_time, booking_confirmation, booking_description) 
-        VALUES ('$car_plate', '$service_type', '$date', '$time', '$booking_confirmation', '$car_description')";
-        $queryrun = mysqli_query($con, $query);
+        $check_booking_query = "SELECT * FROM booking WHERE booking_date = '$date' AND booking_time = '$time'";
+        $check_booking_query_run = mysqli_query($con, $check_booking_query);
 
-        if ($queryrun) {
-            echo '<script type="text/javascript"> alert("Booking Registered") </script>';
-        } else {
-            die("Error: " . mysqli_error($con));
+        if(mysqli_num_rows($check_booking_query_run) > 0) {
+            echo '<script type="text/javascript"> alert("Booking Already Exists") </script>';
+        } else{
+            $query = "INSERT INTO booking (car_plate, service_type, booking_date, booking_time, booking_confirmation, booking_description) 
+            VALUES ('$car_plate', '$service_type', '$date', '$time', '$booking_confirmation', '$car_description')";
+            $queryrun = mysqli_query($con, $query);
+
+            if ($queryrun) {
+                echo '<script type="text/javascript"> alert("Booking Registered") </script>';
+            } else {
+                die("Error: " . mysqli_error($con));
+            }
         }
-        
     }
 
     ?>
