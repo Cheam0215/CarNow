@@ -45,19 +45,36 @@ function hideDetailsSection() {
 }
 
 function startMaintenance() {
-    showRecordSection();
-    hideStartButton();
-    hideDetailsSection()
-    detailsProgressToTick();
+    const carPlate = document.getElementById('carPlate').value;
+    const appointmentDate = document.getElementById('appointmentDate').value;
+    const appointmentTime = document.getElementById('appointmentTime').value;
+
+    if (carPlate && appointmentDate && appointmentTime) {
+        showRecordSection();
+        hideStartButton();
+        hideDetailsSection()
+        detailsProgressToTick();
+    } else {
+        alert("Please fill out all the fields.");
+    }
+   
 }
 
 function handleSubmit(event) {
-    event.preventDefault();
-    hideRecordSection();
-    showPaymentSection();
-    detailsProgressToTick();
-    inProgressToTick();
-    populateInvoice();
+    const carIssue = document.getElementById('car-issue').value;
+    const carIssueDescription = document.getElementById('car-issue-description').value;
+
+    if (carIssue && carIssueDescription) {
+        event.preventDefault();
+        hideRecordSection();
+        showPaymentSection();
+        detailsProgressToTick();
+        inProgressToTick();
+        populateInvoice();
+    } else {
+        alert("Please fill out all the fields.");
+    }
+
 }
 
 function completePayment() {

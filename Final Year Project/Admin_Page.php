@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="styles/Adminpage.css" rel="stylesheet">
+    <link href="Adminpage.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
     <title>Admin Webpage</title>
 </head>
@@ -79,9 +79,28 @@
             echo "Error: " . mysqli_error($con); // Add this line for debugging
         }
 
+        $query5 = "SELECT image from user where role = 'admin';";
+        $result5= mysqli_query($con, $query5);
 
+        if ($result5) {
+            $row = mysqli_fetch_assoc($result5);
+            $profilePic = $row['image'];
+        } else {
+            echo "<h1>No Record Thus Far</h1>";
+            echo "Error: " . mysqli_error($con); 
+        }
 
-    ?>
+        $query6 = "SELECT username from user where role = 'admin';";
+        $result6= mysqli_query($con, $query6);
+        if ($result6) {
+            $row = mysqli_fetch_assoc($result6);
+            $username = $row['username'];
+        } else {
+            echo "<h1>No Record Thus Far</h1>";
+            echo "Error: " . mysqli_error($con); 
+        }
+
+    ?>  
     
     <div class="container">
 
@@ -99,7 +118,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="Admin_Page.php" class="active">
+                <a href="Admin_Page.html" class="active">
                     <span class="material-symbols-sharp">
                         dashboard
                     </span>
@@ -124,7 +143,7 @@
                     </span>
                     <h3>Staff</h3>
                 </a>
-                <a href="admin_inventory.php">
+                <a href="#">
                     <span class="material-symbols-sharp">
                     inventory_2
                     </span>
@@ -152,11 +171,6 @@
                 <div class="header">
                     <div class="left">
                         <h1>Dashboard</h1>
-                        <div class="breadcrumb">
-                            <div>
-                                <a href="#">Analytics</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -167,7 +181,7 @@
                     </span>
                     <span class="info">
                         <h3><?php echo $totalSales?></h3>
-                        <p>Number of Sales</p>
+                        <p>Num of Sales</p>
                     </span>
                 </div>
 
@@ -176,7 +190,7 @@
                         monitoring
                     </span>
                     <span class="info">
-                        <h3><?php echo $totalRevenue ?></h3>
+                        <h3><?php echo $totalRevenue?></h3>
                         <p>Revenue</p>
                     </span>
                 </div>
@@ -203,9 +217,53 @@
                     
             </div>
 
-            
+            <div class="chart">
+                <h2>Revenue Chart</h2>
+                <canvas id="chart"></canvas>
+            </div>
 
+            <div class="recent-orders">
+                <h2>Recent Payments</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>User Name</th>
+                            <th>Amount</th>
+                            <th>Payment Method</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            include("connection.php");
 
+                            $query2 = "SELECT payment_id, username, time, amount, payment_method, payment_status FROM payment 
+                            JOIN user ON payment.user_id = user.user_id
+
+                            ORDER BY time DESC LIMIT 10;";
+                            $result2 = mysqli_query($con, $query2);
+
+                            if ($result2) {
+                                while ($row = mysqli_fetch_assoc($result2)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['payment_id'] . "</td>";
+                                    echo "<td>" . $row['username'] . "</td>";
+                                    echo "<td>" . $row['amount'] . "</td>";
+                                    echo "<td>" . $row['payment_method'] . "</td>";
+                                    echo "<td>" . $row['time'] . "</td>";
+                                    echo "<td>" . $row['payment_status'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<h1>No Record Thus Far</h1>";
+                                echo "Error: " . mysqli_error($con); 
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
                                     
         </main>
 
@@ -215,11 +273,11 @@
             <div class="nav">
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>CHIEU</b></p>
+                        <p>Hey, <b><?php echo $username ?></b></p>
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="Pic/user.png">
+                        <img src="<?php echo $profilePic?>">
                     </div>
                 </div>
             </div>
@@ -228,13 +286,8 @@
       
     </div>
 
-    
 
-
-
-
-
-    <script src="orders.js"></script>
-    <script src="index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

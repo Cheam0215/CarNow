@@ -238,7 +238,7 @@ aside .sidebar a:hover span{
 
 .right-section{
     margin-top: 1rem;
-    position: fixed;;
+    position: absolute;;
     top: 0;
     right: 2%;
 
@@ -326,4 +326,51 @@ aside .sidebar a:hover span{
     font-size: 1rem;
     font-weight: 500;
     color: var(--color-dark-variant);
+}
+
+.recent-orders{
+    margin-top: 1.3rem;
+
+}
+.recent-orders h2{
+    margin-bottom   : 0.8rem;
+}
+
+.recent-orders table{
+    background-color: var(--color-white);
+    width:100%;
+    padding: var(--card-padding);
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--card-border-radius);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.recent-orders table:hover{
+    box-shadow: none;
+}
+
+main table tbody td{
+    height: 2.8rem;
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-dark-variant);
+}
+
+main table tbody td:last-child{
+    border: none;
+}
+
+#chart{
+    background-color: var(--color-white);
+    max-width: 100%;
+    margin-top: 2rem;
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+
+}
+
+.chart h2{
+    margin-top: 1.5rem;
+    margin-bottom: auto;
 }
