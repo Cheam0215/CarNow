@@ -120,7 +120,20 @@ ul li .active .uil {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.details input, .details select, .record-section select, .record-section button, .details button, .payment-section button, .done-section button{
+.record-section{
+    padding:30px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.payment-section, .done-section {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+.details input, .details select, .record-section select, .record-section button, .details button, .payment-section button, .done-section button, #car-issue-description{
     width: calc(100% - 20px);
     margin: 10px 10px;
     padding: 10px;
@@ -140,7 +153,7 @@ ul li .active .uil {
 }
 
 .record-section, .payment-section, .done-section {
-    display: none;
+    display: none;
 }
 
 .done-section i{
@@ -149,4 +162,29 @@ ul li .active .uil {
     margin: 20px 0;
 }
 
+.car-issue-description {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    resize: none;
+}
 
+
+.back-details:hover, .back-record:hover{
+    background-color: #e4dedd;
+    cursor: pointer;
+}
+
+.invoice {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid #ccc;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: auto;
+}

@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     hideRecordSection();
     hidePaymentSection();
@@ -60,11 +61,13 @@ function handleSubmit(event) {
 }
 
 function completePayment() {
+    populateInvoice(); 
     hidePaymentSection();
     showDoneSection();
     paymentProgressToTick();
     const date = new Date().toLocaleString();
     document.getElementById('payment-date').textContent = date;
+    document.getElementById('invoice-form').submit();
 }
 
 function doneBooking(){
@@ -85,15 +88,51 @@ function paymentProgressToTick() {
     document.getElementById('progress-three').classList.add('active');
 }
 
+
 function populateInvoice() {
     const carIssue = document.getElementById('car-issue').value;
     const carPlate = document.getElementById('carPlate').value;
     const appointmentDate = document.getElementById('appointmentDate').value;
     const appointmentTime = document.getElementById('appointmentTime').value;
+    const description = document.getElementById('car-issue-description').value;
+
+    // Set the values of hidden input fields
+    document.getElementById('hidden-car-issue').value = carIssue;
+    document.getElementById('hidden-carPlate').value = carPlate;
+    document.getElementById('hidden-appointmentDate').value = appointmentDate;
+    document.getElementById('hidden-appointmentTime').value = appointmentTime;
+    document.getElementById('hidden-description').value = description;
 
     document.getElementById('car-issue-done').textContent = carIssue;
     document.getElementById('car-plate').textContent = carPlate;
     document.getElementById('appointment-date').textContent = appointmentDate;
     document.getElementById('appointment-time').textContent = appointmentTime;
+    document.getElementById('description').textContent = description;
 }
 
+
+
+function backProgress() {
+    document.getElementById('progress-one').classList.remove('active');
+}
+
+function backProgressTwo() {
+    document.getElementById('progress-two').classList.remove('active');
+}
+
+function backToDetails() {
+    hideRecordSection();
+    showDetailsSection();
+    backProgress();
+}
+
+function backToRecord() {
+    hidePaymentSection();
+    showRecordSection();
+    backProgressTwo();
+}
+
+function showDetailsSection() {
+    document.getElementById('details').style.display = 'block';
+    document.getElementById('start').style.display = 'block';
+}
