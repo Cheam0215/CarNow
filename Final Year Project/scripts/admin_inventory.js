@@ -1,5 +1,6 @@
 const addButton = document.querySelector('.add-button');
 const closeButton = document.querySelectorAll(".close-button i");
+const editItem = document.querySelector('.edit-item')
 
 addButton.addEventListener('click', () => {
   document.querySelector('.add-item').style.visibility = 'visible';
@@ -13,7 +14,9 @@ closeButton.forEach(function(button) {
     console.log('clicked');
     document.querySelector('.container').style.opacity = '1';
     document.querySelector('.add-item').style.visibility = 'hidden';
-    document.querySelector('.edit-item').style.visibility = 'hidden';
+    if (editItem) {
+      editItem.style.visibility = 'hidden';
+    }
     document.querySelector('.container').style.pointerEvents = 'auto';
   });
 });

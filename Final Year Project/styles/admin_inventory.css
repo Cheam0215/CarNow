@@ -232,6 +232,11 @@ td{
 .add-item{
   visibility: hidden;
 }
+
+.edit-item{
+  visibility: visible;
+}
+
 .add-item, .edit-item {
 
   position: fixed;

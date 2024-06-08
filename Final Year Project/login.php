@@ -5,13 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Now - Login</title>
-    
+    <script src="scripts/login.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="Styles/login.css">
-    <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-    ?>
+    <link rel="stylesheet" href="styles/login.css">
 <?php
 session_start();
 
@@ -31,8 +27,6 @@ function validate_ic($ic) {
 
 include("connection.php");
 
-
-
 if(isset($_POST['sign-up-button'])){
     $_SESSION['form_submitted'] = true;
 
@@ -41,7 +35,7 @@ if(isset($_POST['sign-up-button'])){
     $password = ($_POST['userpassword']);       
     $usercontact = $_POST['usercontact'];
     $useric = $_POST['useric'];
-    $role = $_POST['role'];
+    $role = "user";
 
     $check_email_query = "SELECT * FROM user WHERE email = '$email'";
     $check_email_result = mysqli_query($con, $check_email_query);
@@ -113,12 +107,6 @@ if (isset($_POST['sign-in-button'])) {
             <input type="password" placeholder="Password" name="userpassword" required>
             <input type="tel" placeholder="Contact Number" name="usercontact" required>
             <input type="text" placeholder="IC Number Eg.040215-10-0575" name="useric" required>
-            <select name="role" required>
-                <option value="" disabled selected>Select your role</option>
-                <option value="user">User</option>
-                <option value="staff">Staff</option>
-                <option value="admin">Admin</option>
-            </select>
             <button type="submit" name="sign-up-button">Sign Up</button>
         </form>
     </div>
@@ -148,6 +136,6 @@ if (isset($_POST['sign-in-button'])) {
     </div>
 </div>
 
-<script src="scripts/login.js"></script>
+
 </body>
 </html>
