@@ -1,5 +1,4 @@
 <?php include("session.php"); ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,14 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="styles/mainpage.css">
     <link rel="stylesheet" href="styles/header.css">
     <script src="scripts/header.js" defer></script>
-    
+
 </head>
-
-
 <body>
     <header class="main">
         <div class="navbar">
@@ -28,7 +24,7 @@
                     <ul>
                         <li><a href="mainpage.php">Home</a></li>
                         <li><a href="about_us.php">About us</a></li>
-                        <li><a href="#" id="serviceButton">Book a Service</a></li>
+                        <li><a href="book_appointment.php" id="serviceButton">Book a Service</a></li>
                         <li><a href="#">My Bookings</a></li>
                         <?php if(isset($_SESSION['mySession'])): 
                             include("connection.php");
@@ -39,10 +35,9 @@
                                 $row = mysqli_fetch_assoc($result);
                                 $username = $row['username'];
                             } else {
-                                header("Location: logout.php");
+                                header("Location: login.php");
                                 exit;
                             }
-
                             ?>
                             <li>
                                 <div class="profile-menu">
@@ -65,7 +60,8 @@
         </div>
     </header>
     <div class="content">
-        <!-- Add your content here -->
+        <div class="background-logo"></div>
+        <div id="container3D"></div>
     </div>
     <footer class="bottom">
         <h5 class="bottom-text">
