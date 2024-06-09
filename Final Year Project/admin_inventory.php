@@ -77,7 +77,7 @@
             } else {
                 $total_items = number_format(0, 2);
             }
-        } else {
+        } else {    
 
             echo "<h1>No Record Thus Far</h1>";
             echo "Error: " . mysqli_error($con); 
