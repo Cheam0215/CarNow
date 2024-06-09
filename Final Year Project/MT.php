@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +8,6 @@
     <title>CarNow Staff Maintenance</title>
     <link rel="stylesheet" href="Styles/MT.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-
 </head>
 
 <body>
@@ -143,11 +141,67 @@
             <form method="post" action="MT.php">
                 <div class="invoice">
                     <input type="hidden" id="bookingId" name="booking_id" value="<?php echo $bookingId; ?>">
-                    
-                    <p>Type of Service: <span id="car-issue-done"></span></p>
                     <input type="hidden" name="hidden-car-issue" id="hidden-car-issue">
+
+                    
+                    <?php
+                    // Fetch all items from the inventory
+                    $sql = "SELECT * FROM inventory";
+                    $result = mysqli_query($con, $sql);
+                    ?>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Brand</th>
+                                <th>Quantity</th>
+                                <th>Cost</th>
+                                <th>Quantity Used</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>
+                                    <td class='item_preview'>
+                                        <div class='item_id' name='item-id'><b>I00" . $row['item_id'] . "</b></div>
+                                        <img src='item_image/" . $row["item_image"] . "' alt='" . $row["item_name"] . "' class='item_image'>
+                                        <div class='item_name'><b>" . $row["item_name"] . "</b></div>
+                                    </td>
+                                    <td>" . $row["item_brand"] . "</td>
+                                    <td>" . $row["quantity"] . "</td>
+                                    <td>MYR " . $row["cost"] . ".00</td>
+                                    <td>
+                                        <input type='number' name='quantity_used[" . $row['item_id'] . "]' min='0' max='" . $row["quantity"] . "'>
+                                    </td>
+                                </tr>";
+                            }
+                        } else {
+                            echo '<h1 style="text-align:center;">Item not found</h1><br>';
+                        }
+
+                        if (isset($_POST['submit-button'])) {
+                            $bookingId =  $_POST['booking_id'];
+                            $service_details = $_POST['hidden-car-issue'];
+                            echo "<input type='hidden' id='bookingId' value='$bookingId'>";
+    
+                            $query = "INSERT INTO maintenance (booking_id, service_details, progress)
+                                        VALUES ('$bookingId', '$service_details', 'In Progress')";
+                            $queryrun = mysqli_query($con, $query);
+    
+                            if ($queryrun) {
+                                echo '<script type="text/javascript"> alert("Maintenance Recorded") </script>';
+                            } else {
+                                die("Error: " . mysqli_error($con));
+                            }
+                        }
+                        ?>
+                        </tbody>
+                    </table>
                 </div>
-                <button id="done" name="submit-button" onclick="completePayment()">Submit</button>
+                <button id="done" name="submit-button" type="submit">Submit</button>
             </form>
             <button class="back-record" onclick="backToRecord()">Back</button>
         </div>
