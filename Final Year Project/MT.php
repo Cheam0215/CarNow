@@ -1,6 +1,3 @@
-<?php
-include("MTsession.php");
-?>
 
 <!DOCTYPE html>
 <html lang="en">
