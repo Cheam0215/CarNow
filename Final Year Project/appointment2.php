@@ -18,7 +18,7 @@
         $time = $_POST['hidden-appointmentTime'];
         $date = $_POST['hidden-appointmentDate'];
         $service_type = $_POST['hidden-car-issue'];
-        $booking_confirmation = "Booking Registered";
+        $booking_confirmation = "Pending";
         $car_description = $_POST['hidden-description'];
 
         $check_booking_query = "SELECT * FROM booking WHERE booking_date = '$date' AND booking_time = '$time'";
