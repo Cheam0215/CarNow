@@ -98,21 +98,6 @@
                         echo "<p>Booking ID and car plate are not provided.</p>";
                     }
 
-                    if (isset($_POST['submit-button'])) {
-                        $bookingId =  $_POST['booking_id'];
-                        $service_details = $_POST['hidden-car-issue'];
-                        echo "<input type='hidden' id='bookingId' value='$bookingId'>";
-
-                        $query = "INSERT INTO maintenance (booking_id, service_details, progress)
-                                    VALUES ('$bookingId', '$service_details', 'In Progress')";
-                        $queryrun = mysqli_query($con, $query);
-
-                        if ($queryrun) {
-                            echo '<script type="text/javascript"> alert("Maintenance Recorded") </script>';
-                        } else {
-                            die("Error: " . mysqli_error($con));
-                        }
-                    }
                     ?>
 
                     <div id="car-issues-container">
