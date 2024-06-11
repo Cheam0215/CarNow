@@ -85,11 +85,11 @@ function populateInvoice() {
     const bookingId = document.getElementById('bookingId').value;
     const carIssue = document.getElementById('car-issue').value;
 
+
     document.getElementById('bookingId').value = bookingId;
     document.getElementById('hidden-car-issue').value = carIssue;
 
 }
-
 
 function backProgress() {
     document.getElementById('progress-one').classList.remove('active');
@@ -122,14 +122,14 @@ function addIssue() {
     newIssueRow.classList.add('car-issue-row');
     newIssueRow.innerHTML = `
         <select name="car-issue[]">
-            <option value="engineOil">Change of Engine Oil</option>
-            <option value="transmissionFluid">Change of Transmission Fluid</option>
-            <option value="oilFilter">Oil Filter Renewal</option>
-            <option value="airFilter">Air Filter Renewal</option>
-            <option value="coolant">Refill Coolant</option>
-            <option value="sparkPlugs">Change of Spark Plugs</option>
+            <option value="Change of Engine Oil">Change of Engine Oil</option>
+            <option value="Change of Transmission Fluid">Change of Transmission Fluid</option>
+            <option value="Oil Filter Renewal">Oil Filter Renewal</option>
+            <option value="Air Filter Renewal">Air Filter Renewal</option>
+            <option value="Refill Coolant">Refill Coolant</option>
+            <option value="Change of Spark Plugs">Change of Spark Plugs</option>
         </select>
         <button type="button" class="add-issue-btn" onclick="addIssue()">+</button>
-    `;
+    `; 
     container.appendChild(newIssueRow);
 }

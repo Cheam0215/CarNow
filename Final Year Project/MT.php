@@ -98,6 +98,7 @@
                         echo "<p>Booking ID and car plate are not provided.</p>";
                     }
 
+
                     ?>
 
                     <div id="car-issues-container">
@@ -127,7 +128,6 @@
                 <div class="invoice">
                     <input type="hidden" id="bookingId" name="booking_id" value="<?php echo $bookingId; ?>">
                     <input type="hidden" name="hidden-car-issue" id="hidden-car-issue">
-
                     
                     <?php
                     // Fetch all items from the inventory
@@ -173,7 +173,7 @@
                             echo "<input type='hidden' id='bookingId' value='$bookingId'>";
     
                             $query = "INSERT INTO maintenance (booking_id, service_details, progress)
-                                        VALUES ('$bookingId', '$service_details', 'In Progress')";
+                                        VALUES ('$bookingId', '$service_details', 'Done')";
                             $queryrun = mysqli_query($con, $query);
     
                             if ($queryrun) {
