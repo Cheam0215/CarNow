@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking(Staff)</title>
-    <link rel="stylesheet" href="Styles/booking(staff).css"> 
+    <link rel="stylesheet" href="Styles/booking(staff).css">
+    <script src="scripts/booking(staff).js" defer></script> 
 
 
 </head>
@@ -29,7 +30,16 @@
                     $result = mysqli_query($con, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         echo "<table>";
-                        echo "<tr><th>Booking ID</th><th>Car Plate</th><th>Service Type</th><th>Status</th><th>Date</th><th>Time</th><th>Description</th><th>Actions</th></tr>";
+                        echo "<tr>
+                        <th>Booking ID</th>
+                        <th>Car Plate</th>
+                        <th>Service Type</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                        </tr>";
                         while ($row = mysqli_fetch_assoc($result)) {
                             $statusClass = strtolower($row["booking_confirmation"]);
                             echo "<tr>
@@ -52,7 +62,7 @@
                         }
                         echo "</table>";
                     } else {
-                        echo '<h1 style="text-align:center;">There are no applicants.</h1><br>';
+                        echo '<h1 style="text-align:center;">There are no bookings.</h1><br>';
                     }
                     ?>
                 </div>
@@ -61,11 +71,20 @@
                 <h2>Booked</h2>
                 <div class="booked" id="booked">
                 <?php
-                $sql1 = "SELECT * FROM booking WHERE booking_confirmation = 'Confirm'";
+                $sql1 = "SELECT * FROM booking WHERE booking_confirmation = 'Confirmed'";
                 $result1 = mysqli_query($con, $sql1);
                 if (mysqli_num_rows($result1) > 0) {
                     echo "<table>";
-                    echo "<tr><th>Booking ID</th><th>Car Plate</th><th>Service Type</th><th>Status</th><th>Date</th><th>Time</th><th>Description</th><th>Actions</th></tr>";
+                    echo "<tr>
+                    <th>Booking ID</th>
+                    <th>Car Plate</th>
+                    <th>Service Type</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                    </tr>";
                     while ($row = mysqli_fetch_assoc($result1)) {
                         $statusClass = strtolower($row["booking_confirmation"]);
                         echo "<tr>
@@ -90,7 +109,8 @@
                     echo '<h1 style="text-align:center;">There are no bookings.</h1><br>';
                 }
 
-                if (isset($_POST['start'])) {
+                /**if (isset($_POST['start'])) {
+                    include ("connection.php");
                     $bookingId = $_POST['booking_id'];
 
                     // Query to get the maximum maintenance_id
@@ -107,19 +127,15 @@
                             VALUES ('$newMaintenanceId', '$bookingId', 'In Progress')";
                     $result2 = mysqli_query($con, $sql2);
 
-                    if ($result2) {
-                        echo "Maintenance record created successfully.";
-                    } else {
-                        echo "Error: " . mysqli_error($con);
-                    }
-                }
+                   
+                }**/
                 ?>
 
                 </div>
             </div>
         </div>
     </div>
-    <script src="Scripts/booking(staff).js"></script>
+    
 </body>
 
 </html>

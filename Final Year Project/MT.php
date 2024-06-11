@@ -8,6 +8,7 @@
     <title>CarNow Staff Maintenance</title>
     <link rel="stylesheet" href="Styles/MT.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="scripts/MT.js" defer></script>
 </head>
 
 <body>
@@ -127,7 +128,7 @@
             <form method="post" action="MT.php">
                 <div class="invoice">
                     <input type="hidden" id="bookingId" name="booking_id" value="<?php echo $bookingId; ?>">
-                    <input type="hidden" name="hidden-car-issue" id="hidden-car-issue">
+                    <input type="hidden" name="hidden-car-issue" id="hidden-car-issue" >
                     
                     <?php
                     // Fetch all items from the inventory
@@ -147,49 +148,85 @@
                         </thead>
                         <tbody>
                         <?php
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>
-                                    <td class='item_preview'>
-                                        <div class='item_id' name='item-id'><b>I00" . $row['item_id'] . "</b></div>
-                                        <img src='item_image/" . $row["item_image"] . "' alt='" . $row["item_name"] . "' class='item_image'>
-                                        <div class='item_name'><b>" . $row["item_name"] . "</b></div>
-                                    </td>
-                                    <td>" . $row["item_brand"] . "</td>
-                                    <td>" . $row["quantity"] . "</td>
-                                    <td>MYR " . $row["cost"] . ".00</td>
-                                    <td>
-                                        <input type='number' name='quantity_used[" . $row['item_id'] . "]' min='0' max='" . $row["quantity"] . "'>
-                                    </td>
-                                </tr>";
-                            }
-                        } else {
-                            echo '<h1 style="text-align:center;">Item not found</h1><br>';
-                        }
+// Include database connection
+include("connection.php");
 
-                        if (isset($_POST['submit-button'])) {
-                            $bookingId =  $_POST['booking_id'];
-                            $service_details = $_POST['hidden-car-issue'];
-                            echo "<input type='hidden' id='bookingId' value='$bookingId'>";
+// Check if the result set from a previous query is available
+if (isset($result) && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $itemId = $row['item_id'];
+        $itemName = $row['item_name'];
+        $itemBrand = $row['item_brand'];
+        $quantity = $row['quantity'];
+        $cost = $row['cost'];
+
+        echo "<tr>
+            <td class='item_preview'>
+                <div class='item_id' name='item-id'><b>I00" . $itemId . "</b></div>
+                <img src='item_image/" . $row["item_image"] . "' alt='" . $itemName . "' class='item_image'>
+                <div class='item_name'><b>" . $itemName . "</b></div>
+            </td>
+            <td>" . $itemBrand . "</td>
+            <td>" . $quantity . "</td>
+            <td>MYR " . $cost . ".00</td>
+            <td>
+                <input type='number' name='quantity_used[" . $itemId . "]' min='0' max='" . $quantity . "'>
+            </td>
+        </tr>";
+    }
+} else {
+    echo '<h1 style="text-align:center;">Item not found</h1><br>';
+}
+?>
+        </tbody>
+    </table>
+    </div>
+    <button id="done" name="submit-button" type="submit">Submit</button>
+    </form>
+    <button class="back-record" onclick="backToRecord()">Back</button>
+</div>
+
+<?php
+if (isset($_POST['submit-button'])) {
+    $bookingId = $_POST['booking_id'];
+    $serviceDetails = $_POST['hidden-car-issue'];
     
-                            $query = "INSERT INTO maintenance (booking_id, service_details, progress)
-                                        VALUES ('$bookingId', '$service_details', 'Done')";
-                            $queryrun = mysqli_query($con, $query);
-    
-                            if ($queryrun) {
-                                echo '<script type="text/javascript"> alert("Maintenance Recorded") </script>';
-                            } else {
-                                die("Error: " . mysqli_error($con));
-                            }
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
-                <button id="done" name="submit-button" type="submit">Submit</button>
-            </form>
-            <button class="back-record" onclick="backToRecord()">Back</button>
-        </div>
+    // Query to get the maximum maintenance_id
+    $query = "SELECT MAX(maintenance_id) AS max_id FROM maintenance";
+    $result = mysqli_query($con, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $maxMaintenanceId = $row['max_id'];
+        
+        // Generate new maintenance_id
+        $newMaintenanceId = $maxMaintenanceId + 1;
+        
+        // Ensure $_POST['quantity_used'] is an array
+        $quantityUsedArray = is_array($_POST['quantity_used']) ? $_POST['quantity_used'] : [];
+        
+        // Loop through the submitted items
+        foreach ($quantityUsedArray as $itemId => $quantityUsed) {
+            if ($quantityUsed > 0) {
+                $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress)
+                          VALUES ('$newMaintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done')";
+                $queryrun = mysqli_query($con, $query);
+
+                if (!$queryrun) {
+                    die("Error: " . mysqli_error($con));
+                }
+            }
+        }
+        
+        echo '<script type="text/javascript"> alert("Maintenance Recorded") </script>';
+    } else {
+        echo "Error fetching max maintenance ID: " . mysqli_error($con);
+    }
+}
+?>
+
+
+
+
         <div class="done-section" id="done-section">
             <i class="icon uil uil-check-circle"></i>
             <h1>Congratulations!</h1>
@@ -198,7 +235,7 @@
         </div>
     </div>
 
-    <script src="Scripts/MT.js"></script>
+    
 </body>
 
 </html>

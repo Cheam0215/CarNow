@@ -4,7 +4,7 @@ if (isset($_POST['approvebutton'])) {
     include("connection.php");
 
     $sql = "UPDATE booking SET
-    booking_confirmation = 'Confirm'
+    booking_confirmation = 'Confirmed'
     WHERE booking_id = '$_POST[booking_id]'";
 
     if (!mysqli_query($con, $sql)) {
