@@ -1,22 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Replace with user ID here
-    const userId = 1;
+    const user_id = 1;
 
-    fetch(`FUD.php?user_id=${userId}`)
+    fetch(`FUD.php?user_id=${user_id}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('userName').innerText = data.name;
-            document.getElementById('userEmail').innerText = data.email;
+            document.getElementById('username').innerText = data.username;
+            document.getElementById('email').innerText = data.email;
+            document.getElementById('contact_number').innerText = data.contact_number;
+            document.getElementById('user_id').innerText = data.user_id;
         })
         .catch(error => console.error('Error fetching personal data:', error));
 
-    fetch(`FSH.php?user_id=${userId}`)
+    fetch(`FSH.php?user_id=${user_id}`)
         .then(response => response.json())
         .then(data => {
-            const serviceHistoryList = document.getElementById('serviceHistoryList');
+            const serviceHistoryList = document.getElementById('payment');
             data.forEach(record => {
                 const listItem = document.createElement('li');
-                listItem.innerText = `${record.date} - ${record.service} - ${record.payment}`;
+                listItem.innerText = `${record.time} - ${record.maintenance_id} - ${record.amount}`;
                 serviceHistoryList.appendChild(listItem);
             });
         })
