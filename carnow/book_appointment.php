@@ -59,7 +59,7 @@
                 <nav class="navigation">
                     <ul>
                         <li><a href="mainpage.php">Home</a></li>
-                        <li><a href="about_us.php">About us</a></li>
+                        <li><a href="mainpage.php#about-us">About us</a></li>
                         <li><a href="#" id="serviceButton">Book a Service</a></li>
                         <li><a href="#">My Bookings</a></li>
                         <?php if(isset($_SESSION['mySession'])): 

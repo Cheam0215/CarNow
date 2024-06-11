@@ -1,4 +1,3 @@
-<?php include("session.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +14,25 @@
     <link rel="stylesheet" href="styles/homepage.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="scripts/header.js" defer></script>
+    <script src="scripts/mainpage.js" defer></script>
 
+
+    <?php
+      // Include database connection
+      include("connection.php");
+
+
+      session_start();
+      $username = null;
+      if (isset($_SESSION['mySession'])) {
+        $sessionID = $_SESSION['mySession'];
+        $query = "SELECT username FROM user WHERE user_id = '$sessionID'";
+        $result = mysqli_query($con, $query);
+        $row = mysqli_fetch_assoc($result);
+        $username = $row['username'];
+      }       
+      
+    ?>
 
 </head>
 <body>
@@ -27,42 +44,35 @@
                 </a>
             </div>
             <div class="menu">
-                <nav class="navigation">
-                    <ul>
-                        <li><a class="active" href="mainpage.php">Home</a></li>
-                        <li><a href="#about-us">About us</a></li>
-                        <li><a href="book_appointment.php" id="serviceButton">Book a Service</a></li>
-                        <li><a href="#">My Bookings</a></li>
-                        <?php if(isset($_SESSION['mySession'])): 
-                            include("connection.php");
-                            $sessionID = $_SESSION['mySession'];
-                            $query = "SELECT username FROM user WHERE user_id = '$sessionID'";
-                            $result = mysqli_query($con, $query);
-                            if ($result && mysqli_num_rows($result) > 0) {
-                                $row = mysqli_fetch_assoc($result);
-                                $username = $row['username'];
-                            } else {
-                                header("Location: login.php");
-                                exit;
-                            }
-                            ?>
-                            <li>
-                                <div class="profile-menu">
-                                    <button onclick="myFunction()" class="dropbtn"><?php echo htmlspecialchars(explode(' ', $username)[0]); ?>
-                                        <span class="material-symbols-outlined">account_circle</span>
-                                        <span class="material-symbols-outlined">keyboard_arrow_down</span>
-                                    </button>
-                                    <div id="myDropdown" class="dropdown-content">
-                                        <a href="my_profile.php">My Profile</a>
-                                        <a href="logout.php">Logout</a>
-                                    </div>
-                                </div>
-                            </li>
-                        <?php else: ?>
-                            <li><button onclick="window.location.href='login.php'" class="login-button">Login</button></li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
+            <nav class="navigation">
+        <ul>
+          <?php if ($username): ?>
+              <li><a href="mainpage.php">Home</a></li>
+              <li><a href="#about-us">About us</a></li>
+          
+              <li><a href="book_appointment.php" id="serviceButton">Book a Service</a></li>
+              <li><a href="#">My Bookings</a></li>
+              <li>
+                  <div class="profile-menu">
+                      <button onclick="myFunction()" class="dropbtn"><?php echo htmlspecialchars(explode(' ', $username)[0]); ?>
+                          <span class="material-symbols-outlined">account_circle</span>
+                          <span class="material-symbols-outlined">keyboard_arrow_down</span>
+                      </button>
+                      <div id="myDropdown" class="dropdown-content">
+                          <a href="my_profile.php">My Profile</a>
+                          <a href="logout.php">Logout</a>
+                      </div>
+                  </div>
+              </li>
+            <?php else: ?>
+                <li><a href="#services">Our Services</a></li>
+                <li><a href="#about-us">About us</a></li>
+                <li><a href="#FAQ">FAQS</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><button onclick="window.location.href='login.php'" class="login-button">Login</button></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
             </div>
         </div>
     </header>
@@ -169,9 +179,17 @@
                             </div>
                         </li>
                     </ul>
-                    <a href="book_appointment.php" class="btn">
+                    <?php if ($username): ?>
+                      <a href="book_appointment.php" class="btn">
                         <span class="span">Book a Service</span>
                         <span class="material-symbols-rounded">arrow_forward</span>
+                      </a>
+                    <?php else: ?>
+                      <a href="login.php" class="btn">
+                        <span class="span">Login to Book a Service</span>
+                        <span class="material-symbols-rounded">arrow_forward</span>
+                      </a>
+                    <?php endif; ?>
                     </a>
                 </div>
             </section>
@@ -329,7 +347,7 @@
 
     </article>
   </main>
-  <footer class="footer">
+  <footer class="footer" id="contact">
 
 <div class="footer-top section">
   <div class="container">

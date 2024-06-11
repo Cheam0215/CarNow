@@ -375,6 +375,21 @@ font-size: 1em;}
   font-size: 0.8em;
 }
 
+.service-card {
+  opacity: 0;
+  transition: all 1s ease-in-out;
+  filter: blur(5px);
+  transform: translateX(-100%);
+  transition: all 1s ;
+
+}
+
+.show{
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateX(0);
+}
+
 .service .btn { margin-inline: auto; }
 
 ul.service-list {
@@ -420,6 +435,25 @@ p.section-text {
   background-color: var(--oxford-blue-2);
   padding: 40px 20px;
   transition: var(--transition);
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(200%);
+  transition: transform 1s, opacity 1s, filter 1s;
+}
+
+.about-item:nth-child(2) {
+  transition-delay: 0.1s;
+
+}
+
+.about-item:nth-child(3) {
+  transition-delay: 0.2s;
+
+}
+
+.about-item:nth-child(4) {
+  transition-delay: 0.3s;
+
 }
 
 .about-item:hover {
@@ -430,6 +464,12 @@ p.section-text {
 .about-item .strong {
   display: block;
   line-height: 1.1;
+}
+
+.show{
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateX(0);
 }
 
 #faq{
