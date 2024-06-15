@@ -80,16 +80,16 @@
         }
 
 
-        $query5 = "SELECT image ,username from user where role = 'admin';";
+        $query5 = "SELECT user_image ,username from user where role = 'admin';";
         $result5= mysqli_query($con, $query5);
 
         if ($result5) {
             $row = mysqli_fetch_assoc($result5);
-            $profilePic = $row['image'];
+            $profilePic = $row['user_image'];
             $username = $row['username'];
         } else {
             echo "<h1>No Record Thus Far</h1>";
-            echo "Error: " . mysqli_error($con); 
+            echo "Error: " . mysqli_error($con);    
         }
 
 
@@ -214,11 +214,28 @@
            
 
             <div class="search-container">
-        <form id="search-form" method="post">
-            <input name ="feedback" type="text" placeholder="Search by Feedback ID or Name" id="search-input">
-            <button type="submit" name="search-feedback"><span class="material-symbols-outlined">search</span></button>
-        </form>
-    </div>
+                <div class="name-container">
+                    <form id="search-form" method="post">
+                        <input name="feedback" type="text" placeholder="Search by Feedback ID or Name" id="search-input">
+                        <div class="rating-search">
+                            <label for="rating-filter">Filter by Rating : </label>
+                            <select name="rating-filter" id="rating-filter">
+                                <option>All</option>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="Average">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+
+                        </div>
+                        
+                        <button type="submit" name="search-feedback"><span class="material-symbols-outlined">search</span></button>
+                    </form>
+
+                </div>
+                
+            </div>
 
     <div class="feedback-container">
         <table class="feedback-table">
@@ -236,19 +253,15 @@
             <tbody>
                 <tr>
                     <?php
-                      
                       if (isset($_POST['search-feedback'])) {
                         $searchFeedback = $_POST['feedback'];
+                        $ratingFilter = $_POST['rating-filter'];
                         $queryFeedback = "SELECT f.feedback_id, u.username, u.email, f.maintenance_id, f.description, f.rating FROM feedback f
-                                        INNER JOIN user u ON f.user_id = u.user_id
-                                        WHERE f.feedback_id LIKE '%$searchFeedback%' OR u.username LIKE '%$searchFeedback%'
-                                        "
-                                        ;
+                                          INNER JOIN user u ON f.user_id = u.user_id
+                                          WHERE (f.feedback_id LIKE '%$searchFeedback%' OR u.username LIKE '%$searchFeedback%') AND f.rating = '$ratingFilter'";
                       } else {
                         $queryFeedback = "SELECT f.feedback_id, u.username, u.email, f.maintenance_id, f.description, f.rating FROM feedback f
-                                        INNER JOIN user u ON f.user_id = u.user_id
-                                        "
-                                        ;
+                                        INNER JOIN user u ON f.user_id = u.user_id";
                       }
                       $resultFeedback = mysqli_query($con, $queryFeedback);
 
@@ -287,7 +300,11 @@
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="user_image/<?php echo $profilePic?>">
+                        <?php if ($profilePic == NULL): ?>
+                            <img src="images/profile-icon.png" alt="User Avatar">
+                        <?php else: ?>
+                            <img src="user_image/<?php echo $profilePic; ?>" alt="User Avatar">
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

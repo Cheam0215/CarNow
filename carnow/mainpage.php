@@ -396,7 +396,7 @@
       </li>
 
       <li>
-        <a href="tel:+01234567890" class="footer-link">
+        <a href="tel:+0390114698" class="footer-link">
           <span class="material-symbols-rounded">call</span>
 
           <span class="span">+03 9011 4698</span>
@@ -404,7 +404,7 @@
       </li>
 
       <li>
-        <a href="mailto:info@autofix.com" class="footer-link">
+        <a href="mailto:support@carnow.com" class="footer-link">
           <span class="material-symbols-rounded">mail</span>
 
           <span class="span">support@carnow.com</span>

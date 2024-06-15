@@ -26,7 +26,7 @@
         $booking_confirmation = "Pending";
         $car_description = $_POST['hidden-description'];
 
-        $check_booking_query = "SELECT * FROM booking WHERE booking_date = '$date' AND booking_time = '$time'";
+        $check_booking_query = "SELECT * FROM booking WHERE booking_date = '$date' AND booking_time = '$time' AND car_plate = '$car_plate'";
         $check_booking_query_run = mysqli_query($con, $check_booking_query);
 
         if(mysqli_num_rows($check_booking_query_run) > 0) {
