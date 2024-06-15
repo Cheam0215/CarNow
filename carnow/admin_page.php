@@ -82,12 +82,12 @@
         }
 
 
-        $query5 = "SELECT image ,username from user where role = 'admin';";
+        $query5 = "SELECT user_image ,username from user where role = 'admin';";
         $result5= mysqli_query($con, $query5);
 
         if ($result5) {
             $row = mysqli_fetch_assoc($result5);
-            $profilePic = $row['image'];
+            $profilePic = $row['user_image'];
             $username = $row['username'];
         } else {
             echo "<h1>No Record Thus Far</h1>";
@@ -276,7 +276,7 @@
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="user_image/<?php echo $profilePic?>">
+                        <img src="user_user_image/<?php echo $profilePic?>">
                     </div>
                 </div>
             </div>

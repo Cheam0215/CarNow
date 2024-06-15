@@ -79,7 +79,7 @@ if (isset($_POST['sign-in-button'])) {
                 header("Location: mainpage.php");
                 exit();
             case 'staff':
-                header("Location: staff_mainpage.php");
+                header("Location: booking(staff).php");
                 exit();
             case 'admin':
                 header("Location: admin_page.php");

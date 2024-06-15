@@ -1,138 +1,322 @@
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:wght@500&family=Rubik:ital,wght@0,300;0,700;1,500&display=swap');
+
+:root {
+    --color-primary: #6C9BCF;
+    --color-danger: #FF0060;
+    --color-success: #1B9C85;
+    --color-warning: #F7D060;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-dark: #363949;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 1.2rem;
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+.dark-mode-variables {
+    --color-background: #181a1e;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0, 0, 0, 0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html {
+    font-size: 14px;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #c9d6ff;
-  font-family: 'Montserrat', sans-serif;
-  min-height: 100vh;
-  padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #e0e0e0, #f4f4f4);
+    min-height: 100vh;
+    padding-bottom: 100px;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    user-select: none;
+    overflow-x: hidden;
+    color: var(--color-dark);
+    background-color: var(--color-background);
 }
 
+a {
+    color: var(--color-dark);
+}
+
+img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+}
+
+h1, h2, h3, small, p, b {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+.text-muted {
+    color: var(--color-info-dark);
+}
+
+.primary, .danger, .success, .warning {
+    color: var(--color-primary);
+}
+
+aside {
+    width: 250px; /* Fixed width */
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixed position */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    background-color: var(--color-white);
+    box-shadow: var(--box-shadow);
+    border-radius: 15px;
+    padding: var(--padding-1);
+    overflow-y: auto; /* Enable vertical scrolling */
+    z-index: 1000; /* Ensure it's on top of other content */
+}
+
+
+aside .sidebar a:last-child{
+  position: absolute;
+  bottom: 2rem;
+  width:100%;
+}
+
+/* Adjust the container to add padding for the sidebar */
+.container {
+    display: flex;
+    flex-direction: row;
+    padding-left: 260px; /* Adjust based on the sidebar width */
+    transition: padding-left 0.3s ease;
+}
+
+/* Responsive adjustments if necessary */
+@media (max-width: 768px) {
+    aside {
+        width: 200px; /* Smaller sidebar on smaller screens */
+    }
+    .container {
+        padding-left: 210px; /* Adjust padding accordingly */
+    }
+}
+
+aside .toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+}
+
+aside .sidebar a {
+    display: flex;
+    align-items: center;
+    color: var(--color-info-dark);
+    height: 4rem;
+    gap: 1rem;
+    position: relative;
+    margin-left: 2rem;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+aside .sidebar a.active {
+    width: 100%;
+    color: var(--color-primary);
+    background-color: var(--color-light);
+    margin-left: 0;
+}
+
+aside .sidebar a.active::before {
+    content: '';
+    width: 6px;
+    height: 18px;
+    background-color: var(--color-primary);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+aside .sidebar a:hover {
+    color: var(--color-primary);
+}
+
+.content, .header, .insights, .recent-orders, #chart {
+    background-color: var(--color-background);
+    color: var(--color-dark);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* Additional styles from the second CSS */
 .main {
-  width: 90%;
-  max-width: 1200px;
-  margin: 20px auto;
-  text-align: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    text-align: center;
 }
 
 .toggle-buttons {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .toggle-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  background-color: #ccc;
-  color: #000;
-  transition: background-color 0.3s;
-  border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #ccc;
+    color: #000;
+    transition: background-color 0.3s;
+    border-radius: 5px;
 }
 
 .toggle-button.active {
-  background-color: #007BFF;
-  color: white;
-}
-
-.container {
-  width: 100%;
+    background-color: #007BFF;
+    color: white;
 }
 
 .section {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .section h2 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
-.pending, .booked {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  max-height: 600px;
-  overflow-y: auto;
+.pending,
+.booked,
+.inService {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-table th, table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
 }
 
-.approvebutton, .rejectbutton, .start {
-  padding: 10px 20px;
-  font-size: 14px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.approvebutton {
-  background-color: #4CAF50;
-  color: white;
+.approvebutton,
+.rejectbutton,
+.start,
+.continue {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #007BFF;
+    color: white;
 }
 
 .approvebutton:hover {
-  background-color: #45a049;
+    background-color: #0056b3;
 }
 
 .rejectbutton {
-  background-color: #f44336;
-  color: white;
+    background-color: #f44336;
 }
 
 .rejectbutton:hover {
-  background-color: #e53935;
+    background-color: #e53935;
 }
 
-.start {
-  background-color: #008CBA;
-  color: white;
+.start,
+.continue {
+    background-color: #008CBA;
 }
 
-.start:hover {
-  background-color: #007bb5;
+.start:hover,
+.continue:hover {
+    background-color: #007bb5;
 }
 
-.pending p, .approved p, .rejected p {
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  margin: 0;
+.pending p,
+.approved p,
+.rejected p,
+.inService p {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0;
 }
 
 .pending p {
-  background-color: yellow;
-  color: black;
+    background-color: yellow;
+    color: black;
 }
 
 .approved p {
-  background-color: #4CAF50;
-  color: white;
+    background-color: #4CAF50;
+    color: white;
 }
 
 .rejected p {
-  background-color: #f44336;
-  color: white;
+    background-color: #f44336;
+    color: white;
+}
+
+.inService p {
+    background-color: #FFA500;
+    color: white;
+}
+.right-section{
+  margin-top: 1rem;
+  position: absolute;;
+  top: 0;
+  right: 2%;
+
+}
+
+.right-section .nav .profile{
+  display: flex;
+  gap: 2rem;
+  text-align: right;
+}
+
+.right-section .nav .profile img{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 80%;
+  overflow: hidden;
 }

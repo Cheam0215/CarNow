@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hidePaymentSection();
     hideDoneSection();
     showStartButton();
-});
+});x    
 
 function hideRecordSection() {
     document.getElementById('record-section').style.display = 'none';
@@ -85,10 +85,8 @@ function populateInvoice() {
     const bookingId = document.getElementById('bookingId').value;
     const carIssue = document.getElementById('car-issue').value;
 
-
     document.getElementById('bookingId').value = bookingId;
     document.getElementById('hidden-car-issue').value = carIssue;
-
 }
 
 function backProgress() {
@@ -117,7 +115,6 @@ function showDetailsSection() {
 }
 
 function addIssue() {
-
     const container = document.getElementById('car-issues-container');
     const newIssueRow = document.createElement('div');
     newIssueRow.classList.add('car-issue-row');
@@ -130,7 +127,6 @@ function addIssue() {
             <option value="Refill Coolant">Refill Coolant</option>
             <option value="Change of Spark Plugs">Change of Spark Plugs</option>
         </select>
-        
-    `; 
+    `;
     container.prepend(newIssueRow);
 }
