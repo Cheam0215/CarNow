@@ -8,8 +8,7 @@
     <link href="styles/admin_inventory.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="scripts/admin_inventory.js" defer></script>
     <title>Admin Inventory</title>
@@ -84,12 +83,12 @@
             echo "Error: " . mysqli_error($con); 
         }
 
-        $query5 = "SELECT image ,username from user where role = 'admin';";
+        $query5 = "SELECT user_image ,username from user where role = 'admin';";
         $result5= mysqli_query($con, $query5);
 
         if ($result5) {
             $row = mysqli_fetch_assoc($result5);
-            $profilePic = $row['image'];
+            $profilePic = $row['user_image'];
             $username = $row['username'];
         } else {
             echo "<h1>No Record Thus Far</h1>";

@@ -2,7 +2,7 @@
 
 #search-form {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   margin-bottom: 15px;
   margin-top: 50px;
@@ -13,16 +13,38 @@
 }
 
 #search-input {
+  
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
   outline: none;
-  width: 900px;
+  width: 600px;
   border-radius: 20px;
   margin-right: 20px; ;
+}
 
+.rating-search {
 
+  font-family: "Montserrat", sans-serif;
+
+  select {
+    background-color: #f6f6f9;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    outline: none;
+    border-radius: 20px;
+    text-align: center;
+  
+  }
+
+  label {
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+  
+  }
 }
 
 #search-input:focus {
