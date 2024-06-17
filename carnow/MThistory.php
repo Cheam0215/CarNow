@@ -69,9 +69,9 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
         </div>
         <div class="main">
-            <h1>Maintenance History</h1>
+            <h1>Service History</h1>
             <div class="search-bar">
-                <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search for maintenance records..">
+                <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search for service records..">
             </div>
             <div class="maintenance-history">
                 <?php
@@ -81,8 +81,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     echo "<table id='historyTable'>";
                     echo "<thead>
                           <tr>
-                          <th>Maintenance ID</th>
-                          <th>Booking ID</th>
+                          <th>Service ID</th>
                           <th>Service Details</th>
                           <th>Quantity Used</th>
                           <th>Progress</th>
@@ -93,7 +92,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>
                               <td>" . $row["maintenance_id"] . "</td>
-                              <td>" . $row["booking_id"] . "</td>
                               <td>" . $row["service_details"] . "</td>
                               <td>" . $row["quantity_used"] . "</td>
                               <td>" . $row["progress"] . "</td>
