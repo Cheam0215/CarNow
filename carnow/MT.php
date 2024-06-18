@@ -7,51 +7,99 @@ if (!isset($_SESSION['mySession'])) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-button'])) {
+if (isset($_POST['start'])) {
     $bookingId = $_POST['booking_id'];
-    $serviceDetails = $_POST['hidden-car-issue'];
-    $quantityUsedArray = is_array($_POST['quantity_used']) ? $_POST['quantity_used'] : [];
-    $sessionID = $_SESSION['mySession'];
-  
-    $car_plate_query = "SELECT car_plate FROM booking WHERE booking_id = '$bookingId'";
-    $car_plate_result = mysqli_query($con, $car_plate_query);
-    if ($car_plate_result) {
-        $car_plate_row = mysqli_fetch_assoc($car_plate_result);
-        $carPlate = $car_plate_row['car_plate']; // Now you have the car plate
-    }
+    $carPlate = $_POST['car_plate'];
+    $query = "SELECT MAX(maintenance_id) AS max_id FROM maintenance";
+    $result = mysqli_query($con, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        
+        $maxMaintenanceId = $row['max_id'];
+        $newMaintenanceId = $maxMaintenanceId + 1;
 
-    // Execute the query to get the booking_date
-    $service_date_query = "SELECT booking_date FROM booking WHERE booking_id = '$bookingId'";
-    $service_date_result = mysqli_query($con, $service_date_query);
-    if ($service_date_result) {
-        $service_date_row = mysqli_fetch_assoc($service_date_result);
-        $service_date = $service_date_row['booking_date']; // Now you have the actual date
+        $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, progress)
+                  VALUES ('$newMaintenanceId', '$bookingId',1, 'In Service')";
+        $queryRun = mysqli_query($con, $query);
 
-        // Query to get the maximum maintenance_id
-        $query = "SELECT MAX(maintenance_id) AS max_id FROM maintenance";
-        $result = mysqli_query($con, $query);
-        if ($result) {
-            $row = mysqli_fetch_assoc($result);
-            $maxMaintenanceId = $row['max_id'];
-            $newMaintenanceId = $maxMaintenanceId + 1;
-
-            // Loop through the submitted items
-            foreach ($quantityUsedArray as $itemId => $quantityUsed) {
-                if ($quantityUsed > 0) {
-                    $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress, user_id, service_date, car_plate)
-                              VALUES ('$newMaintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done', '$sessionID', '$service_date', '$carPlate')";
-                    $queryrun = mysqli_query($con, $query);
-                    if (!$queryrun) {
-                        die("Error: " . mysqli_error($con));
-                    }
-                }
-            }
-            $updateQuery = "UPDATE booking SET booking_confirmation = 'Done' WHERE booking_id = '$bookingId'";
+        if (!$queryRun) {
+            die("Error: " . mysqli_error($con));
+        } else {
+            $updateQuery = "UPDATE booking SET booking_confirmation = 'In Service' WHERE booking_id = '$bookingId'";
             mysqli_query($con, $updateQuery);
-            echo "<script>alert('Service done successfully!');</script>";
-
+            echo "<script>alert('Maintenance started successfully!');</script>";
+            
         }
     }
+}
+
+if (isset($_POST['continue'])) {
+    $bookingId = $_POST['booking_id'];
+    $carPlate = $_POST['car_plate'];
+    $query = "SELECT booking_id FROM booking WHERE booking_id = '$bookingId' AND booking_confirmation = 'In Service'";
+    $result = mysqli_query($con, $query);
+    if (mysqli_num_rows($result) > 0) {
+        echo "<script>alert('Maintenance already in progress!');</script>"; 
+    } else {
+        echo "<script>alert('Maintenance record not found!');</script>";
+    }
+}
+
+
+if (isset($_POST['submit-button'])) {
+    $bookingId = $_POST['booking_id'];
+    $quantityUsedArray = is_array($_POST['quantity_used']) ? $_POST['quantity_used'] : [];
+    $sessionID = $_SESSION['mySession'];
+    
+    $service_date_query = "SELECT booking_date FROM booking WHERE booking_id = '$bookingId'";
+    $service_date_result = mysqli_query($con, $service_date_query);
+    $service_date_row = mysqli_fetch_assoc($service_date_result);
+    $service_date = $service_date_row['booking_date']; // Now you have the actual date
+
+    $car_plate_query = "SELECT car_plate FROM booking WHERE booking_id = '$bookingId'";
+    $car_plate_result = mysqli_query($con, $car_plate_query);
+    $car_plate_row = mysqli_fetch_assoc($car_plate_result);
+    $carPlate = $car_plate_row['car_plate']; // Now you have the car plate
+    
+    // Retrieve the maintenance id before deletion
+    $maintenanceIdQuery = "SELECT maintenance_id FROM maintenance WHERE booking_id = '$bookingId'";
+    $maintenanceIdResult = mysqli_query($con, $maintenanceIdQuery);
+    $maintenanceId = mysqli_fetch_assoc($maintenanceIdResult)['maintenance_id'];
+
+    $deleteQuery = "DELETE FROM maintenance WHERE booking_id = '$bookingId'";
+    mysqli_query($con, $deleteQuery);
+
+    $newMaintenanceId = $maintenanceId;
+    // Loop through the submitted items 
+    foreach ($quantityUsedArray as $itemId => $quantityUsed) {
+        if ($quantityUsed > 0) {
+            $itemQuery = "SELECT item_name FROM inventory WHERE item_id = '$itemId'";
+            $itemResult = mysqli_query($con, $itemQuery);
+            $itemName = mysqli_fetch_assoc($itemResult)['item_name'];
+            $serviceDetails = "Change of $itemName";
+            $itemQuantityQuery = "SELECT quantity FROM inventory WHERE item_id = '$itemId'";
+            $totalitemQuantity = mysqli_fetch_assoc(mysqli_query($con, $itemQuantityQuery))['quantity'];
+            $newQuantity = $totalitemQuantity - $quantityUsed;
+
+            
+            $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress,user_id,service_date,car_plate)
+                        VALUES ('$maintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done','$sessionID','$service_date','$carPlate')";
+            $updateQuantityQuery = "UPDATE inventory SET quantity = '$newQuantity' WHERE item_id = '$itemId'";
+            $updateQuantityQueryrun = mysqli_query($con, $updateQuantityQuery);
+            $queryrun = mysqli_query($con, $query);
+
+
+            if (!$queryrun) {
+                die("Error: " . mysqli_error($con));
+            }
+            else{
+                $updateQuery = "UPDATE booking SET booking_confirmation = 'Done' WHERE booking_id = '$bookingId'";
+                mysqli_query($con, $updateQuery);
+                
+            }
+        }
+    }
+    echo "<script>alert('Service completed successfully!');</script>"; 
 }
     
 
