@@ -276,7 +276,7 @@
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="user_user_image/<?php echo $profilePic?>">
+                        <img src="user_image/<?php echo $profilePic?>">
                     </div>
                 </div>
             </div>

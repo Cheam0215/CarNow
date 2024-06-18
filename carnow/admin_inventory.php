@@ -248,70 +248,70 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        include("connection.php");
+        <?php
+            include("connection.php");
 
-                        // Define the number of items per page
-                        $items_per_page = 3;
-                
-                        // Get the current page number from the URL, default is page 1
-                        $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                        $offset = ($current_page - 1) * $items_per_page;
+            // Define the number of items per page
+            $items_per_page = 3;
+    
+            // Get the current page number from the URL, default is page 1
+            $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            $offset = ($current_page - 1) * $items_per_page;
 
-                        if (isset($_POST['search-button'])) {
-                            $search = $_POST['search'];
-                            $sql = "SELECT * FROM inventory 
-                                    WHERE item_name 
-                                    LIKE '%$search%' OR item_brand LIKE '%$search%' OR item_id LIKE '%$search%'
-                                    LIMIT $offset, $items_per_page ";
+            if (isset($_POST['search-button'])) {
+                $search = $_POST['search'];
+                $sql = "SELECT * FROM inventory 
+                        WHERE item_name 
+                        LIKE '%$search%' OR item_brand LIKE '%$search%' OR item_id LIKE '%$search%'
+                        LIMIT $offset, $items_per_page ";
 
-                            $total_items_query = "SELECT COUNT(*) as total FROM inventory 
-                                                    WHERE item_name 
-                                                    LIKE '%$search%' OR item_brand LIKE '%$search%' OR item_id LIKE '%$search%'";
-                        }
-                        else {
-                            $sql = "SELECT * FROM inventory LIMIT $offset, $items_per_page";
-                            $total_items_query = "SELECT COUNT(*) as total FROM inventory";
-                        }
-                
-                        // Get the total number of items
-                        $total_items_result = mysqli_query($con, $total_items_query);
-                        $total_items_row = mysqli_fetch_assoc($total_items_result);
-                        $total_items = $total_items_row['total'];
-                
-                        // Calculate the total number of pages  
-                        $total_pages = ceil($total_items / $items_per_page);
-                        $result = mysqli_query($con, $sql);
-                            ;
+                $total_items_query = "SELECT COUNT(*) as total FROM inventory 
+                                        WHERE item_name 
+                                        LIKE '%$search%' OR item_brand LIKE '%$search%' OR item_id LIKE '%$search%'";
+            }
+            else {
+                $sql = "SELECT * FROM inventory LIMIT $offset, $items_per_page";
+                $total_items_query = "SELECT COUNT(*) as total FROM inventory";
+            }
+    
+            // Get the total number of items
+            $total_items_result = mysqli_query($con, $total_items_query);
+            $total_items_row = mysqli_fetch_assoc($total_items_result);
+            $total_items = $total_items_row['total'];
+    
+            // Calculate the total number of pages  
+            $total_pages = ceil($total_items / $items_per_page);
+            $result = mysqli_query($con, $sql);
+                ;
 
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>
-                                <td class='item_preview'>
-                                <div class='item_id'><b>I00" . $row['item_id'] . "</b></div>
-                                <img src='item_image/" . $row["item_image"] . "' alt='" . $row["item_name"] . "' class='item_image'>
-                                <div class='item_name'><b>" . $row["item_name"] . "</b></div>
-                                </td>
-                                <td>" . $row["item_brand"] . "</td>
-                                <td>" . $row["quantity"] . "</td>
-                                <td>MYR " . $row["cost"] . ".00</td>
-                                <td class='action-buttons'>
-                                <form class='edit-form' method='post'>
-                                    <input type='hidden' name='item_id' value='".$row['item_id']."'>
-                                    <button class='edit' type='submit' name='submit_button'>
-                                        <span class='material-symbols-outlined'>edit</span>
-                                    </button>
-                                </form>
-                                <a onclick='return confirm(\"Are you sure you want to delete this item?\")' href='delete_inventory.php?item_id=" . $row['item_id'] . "' class='delete'>
-                                    <span class='material-symbols-outlined'>delete</span>
-                                </a>
-                                </td>
-                            </tr>";
-                            }
-                        } else {
-                            echo '<h1 style="text-align:center;">Item not found</h1><br>';
-                        }
-                    ?>
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>
+                    <td class='item_preview'>
+                    <div class='item_id'><b>I00" . $row['item_id'] . "</b></div>
+                    <img src='item_image/" . $row["item_image"] . "' alt='" . $row["item_name"] . "' class='item_image'>
+                    <div class='item_name'><b>" . $row["item_name"] . "</b></div>
+                    </td>
+                    <td>" . $row["item_brand"] . "</td>
+                    <td>" . $row["quantity"] . "</td>
+                    <td>MYR " . $row["cost"] . ".00</td>
+                    <td class='action-buttons'>
+                    <form class='edit-form' method='post'>
+                        <input type='hidden' name='item_id' value='".$row['item_id']."'>
+                        <button class='edit' type='submit' name='submit_button'>
+                            <span class='material-symbols-outlined'>edit</span>
+                        </button>
+                    </form>
+                    <a onclick='return confirm(\"Are you sure you want to delete this item?\")' href='delete_inventory.php?item_id=" . $row['item_id'] . "' class='delete'>
+                        <span class='material-symbols-outlined'>delete</span>
+                    </a>
+                    </td>
+                </tr>";
+                }
+            } else {
+                echo '<h1 style="text-align:center;">Item not found</h1><br>';
+            }
+        ?>
                 </tbody>
             </table>
 

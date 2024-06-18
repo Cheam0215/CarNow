@@ -123,6 +123,7 @@ body {
   color: var(--sonic-silver);
   font-size: 1.6rem;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 :focus-visible { outline-offset: 4px; }
@@ -390,6 +391,8 @@ font-size: 1em;}
   transform: translateX(0);
 }
 
+
+
 .service .btn { margin-inline: auto; }
 
 ul.service-list {
@@ -489,9 +492,9 @@ p.section-text {
 .section_work{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 40px;
   align-items: center;
-  height: 80vh;
+  height: 110vh;
 
   h1{
     width:70%;
@@ -499,6 +502,7 @@ p.section-text {
     color: black;
     font-size: 2em;
     font-weight: bolder;
+    margin-top: 45px;
   }
 }
 
@@ -529,6 +533,112 @@ p.section-text {
   height: 300px;
   width: 600px;
 }
+
+@keyframes slide-in-fade {
+  from {
+    transform: translateY(5vh);
+    opacity: 0;
+  }
+  
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #accordionFlushExample {
+    view-timeline-name: --item-timeline;
+    animation: slide-in-fade both;
+    animation-timeline: --item-timeline;
+  }
+}
+
+.review-slider {
+  width: 100%;
+  height: var(--height)!important;
+  margin-top: 50px;
+  
+}
+
+.review-slider:hover .review-card {
+  animation-play-state: paused!important;
+  transform: scale(0.95);
+  transition: all 0.3s ease-in-out;
+  filter: grayscale(1);
+} 
+
+.review-slider .review-card:hover{
+  filter: grayscale(0);
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+
+}
+
+.reviews{
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  min-width: calc(var(--width) * var(--quantity));
+  position: relative;
+}
+
+.review-card{
+  background-color: #FFF;
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  position: absolute;
+  left: 100%;
+  animation: autoRun 10s linear infinite;
+  animation-delay: calc((10s / var(--quantity)) * (var(--position) - 1));
+  transition: all 0.2s ease-in-out;
+  
+  p{
+    color: black;
+    font-weight: 500;
+  }
+  
+  
+
+  .review-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+
+    h3{
+      font-size: 1.2em;
+      font-weight: bolder;
+      color: black;
+    }
+    p{
+      font-size: 0.9em;
+    }
+  
+  }
+
+  .review-text {
+    text-align: justify;
+    line-height: 1.5;
+  
+  }
+}
+
+@keyframes autoRun {
+  from {
+    left: 100%;
+  }
+  to {
+    left: calc(var(--width) * -1) ;
+}
+}
+
 
 
 
@@ -937,7 +1047,7 @@ p.section-text {
   .about .section-title { text-align: left; }
 
   .about .container {
-    grid-template-columns: 0.5fr 1fr;
+    grid-template-columns: 500px 1fr;
     gap: 80px;
   }
 

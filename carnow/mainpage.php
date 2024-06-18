@@ -18,9 +18,7 @@
 
 
     <?php
-      // Include database connection
       include("connection.php");
-
 
       session_start();
       $username = null;
@@ -201,10 +199,11 @@
       <section id="about-us" class="section about has-before" aria-labelledby="about-label" style="padding-top:50px;padding-bottom:280px">
         <div class="container">
 
-          <figure class="about-banner">
-          <img id="supra" src="images/supra.png" width="00" height="100" loading="lazy" alt="Supra"
-          class="move-anim">
-          </figure>
+          <div class="about-banner" style="position:relative">
+            <img id="supra" src="images/supra.png"  height="100" loading="lazy" alt="Supra" class="move-anim">
+            <img src="images/footer-shape-2.png" width="650" height="335" loading="lazy" alt="Shape"
+              class="shape shape-2" style="position: absolute; top:40%;left:-20%; z-index:-2" >
+          </div>
 
           <div class="about-content">
 
@@ -212,7 +211,7 @@
 
             <p class="section-subtitle :dark">About Us</p>
 
-            <h2 class="h2 section-title">We’re Commited to Meet the quality</h2>
+            <h2 class="h2 section-title">We're Commited to Meet the quality</h2>
 
             <p class="section-text">
             At CarNow, we strive to deliver the highest quality service for your vehicle. 
@@ -343,6 +342,56 @@
     </div>
   </div>
 </div>
+
+
+<div class="review-slider">
+  <div class="reviews" style="--width:400px; --height:300px; --quantity:4">
+    <div class="review-card" style="--position:1">
+      <div class="review-header">
+        <img src="images/profile-icon.png" width="50" height="50" loading="lazy" alt="User 1" class="review-avatar">
+        <div class="review-info">
+          <h3 class="review-name">John Doe</h3>
+          <p class="review-date">July 15, 2021</p>
+        </div>
+      </div>
+      <p class="review-text">"Great service! The technicians were very professional and knowledgeable. My car is running smoothly after the maintenance. Highly recommended!"</p>
+    </div>
+    <div class="review-card" style="--position:2">
+      <div class="review-header">
+        <img src="images/profile-icon.png" width="50" height="50" loading="lazy" alt="User 2" class="review-avatar">
+        <div class="review-info">
+          <h3 class="review-name">Jane Smith</h3>
+          <p class="review-date">August 5, 2022</p>
+        </div>
+      </div>
+      <p class="review-text">"I had a great experience with CarNow. The staff was friendly and the service was top-notch. I will definitely be coming back for future maintenance!"</p>
+    </div>
+    <div class="review-card" style="--position:3">
+      <div class="review-header">
+        <img src="images/profile-icon.png" width="50" height="50" loading="lazy" alt="User 3" class="review-avatar">
+        <div class="review-info">
+          <h3 class="review-name">David Johnson</h3>
+          <p class="review-date">September 20, 2023</p>
+        </div>
+      </div>
+      <p class="review-text">"I was impressed by the level of service provided by CarNow. The technicians were thorough and efficient, and my car is running better than ever. Thank you!"</p>
+    </div>
+
+    <div class="review-card" style="--position:4">
+      <div class="review-header">
+        <img src="images/profile-icon.png" width="50" height="50" loading="lazy" alt="User 4" class="review-avatar">
+        <div class="review-info">
+          <h3 class="review-name">Sarah Williams</h3>
+          <p class="review-date">October 10, 2024</p>
+        </div>
+      </div>
+      <p class="review-text">"CarNow provides excellent service at an affordable price. I am very satisfied with the maintenance work done on my car. Highly recommended!"</p>
+    </div>
+
+    
+  </div>
+</div>
+
       </section>
 
     </article>
