@@ -29,29 +29,6 @@ if ($result && mysqli_num_rows($result) > 0) {
     header("Location: login.php");
     exit;
 }
-
-// Handle the start and continue actions
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['start']) || isset($_POST['continue'])) {
-        $bookingId = $_POST['booking_id'];
-        $carPlate = $_POST['car_plate'];
-        
-        // Check if maintenance record already exists for 'continue' action
-        if (isset($_POST['continue'])) {
-            $query = "SELECT maintenance_id FROM maintenance WHERE booking_id = '$bookingId' AND progress = 'In Service'";
-            $result = mysqli_query($con, $query);
-            if (mysqli_num_rows($result) > 0) {
-                echo "<script>alert('Maintenance already in progress!');</script>";
-            } else {
-                echo "<script>alert('Maintenance record not found!');</script>";
-            }
-        } else {    
-                    $updateQuery = "UPDATE booking SET booking_confirmation = 'In Service' WHERE booking_id = '$bookingId'";
-                    mysqli_query($con, $updateQuery);
-                    echo "<script>alert(' started successfully!');</script>";
-                } 
-    }
-}
 ?>
 
 <body>
@@ -89,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <small class="text-muted">Staff</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="user_user_image/<?php echo $profilePic?>">
+                        <img src="images/profile-icon.png">
                     </div>
                 </div>
             </div>
@@ -122,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         while ($row = mysqli_fetch_assoc($result)) {
                             $statusClass = strtolower($row["booking_confirmation"]);
                             echo "<tr>
-                            <td>" . $row["booking_id"] . "</td>
+                            <td>B0" . $row["booking_id"] . "</td>
                             <td>" . $row["car_plate"] . "</td>
                             <td>" . $row["service_type"] . "</td>
                             <td><div><p class='$statusClass'>" . $row["booking_confirmation"] . "</p></div></td>
@@ -167,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($row = mysqli_fetch_assoc($result1)) {
                         $statusClass = strtolower($row["booking_confirmation"]);
                         echo "<tr>
-                        <td>" . $row["booking_id"] . "</td>
+                        <td>B0" . $row["booking_id"] . "</td>
                         <td>" . $row["car_plate"] . "</td>
                         <td>" . $row["service_type"] . "</td>
                         <td><div><p class='$statusClass'>" . $row["booking_confirmation"] . "</p></div></td>
@@ -211,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($row = mysqli_fetch_assoc($result2)) {
                         $statusClass = strtolower($row["booking_confirmation"]);
                         echo "<tr>
-                        <td>" . $row["booking_id"] . "</td>
+                        <td>B0" . $row["booking_id"] . "</td>
                         <td>" . $row["car_plate"] . "</td>
                         <td>" . $row["service_type"] . "</td>
                         <td><div><p class='$statusClass'>" . $row["booking_confirmation"] . "</p></div></td>
