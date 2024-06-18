@@ -127,6 +127,12 @@ function addIssue() {
             <option value="Refill Coolant">Refill Coolant</option>
             <option value="Change of Spark Plugs">Change of Spark Plugs</option>
         </select>
+        <button type="button" class="remove-issue-btn" onclick="removeIssue(this)">-</button>
     `;
-    container.prepend(newIssueRow);
+    container.appendChild(newIssueRow);
+}
+
+function removeIssue(button) {
+    const row = button.parentElement;
+    row.remove();
 }

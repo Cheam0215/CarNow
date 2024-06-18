@@ -94,14 +94,25 @@ aside {
     box-shadow: var(--box-shadow);
     border-radius: 15px;
     padding: var(--padding-1);
-    overflow-y: auto;
-    z-index: 1000;
+    overflow-x: hidden;
+    z-index: 2;
 }
 
 aside .sidebar a:last-child{
     position: absolute;
     bottom: 2rem;
     width:100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    text-align: center;
+
+}
+input[type="number"] {
+    text-align: center;
 }
 
 .container {
