@@ -82,6 +82,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     echo "<thead>
                           <tr>
                           <th>Service ID</th>
+                          <th>Car Plate</th>
                           <th>Service Details</th>
                           <th>Quantity Used</th>
                           <th>Progress</th>
@@ -92,6 +93,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>
                               <td>" . $row["maintenance_id"] . "</td>
+                              <td>" . $row["car_plate"] . "</td>
                               <td>" . $row["service_details"] . "</td>
                               <td>" . $row["quantity_used"] . "</td>
                               <td>" . $row["progress"] . "</td>

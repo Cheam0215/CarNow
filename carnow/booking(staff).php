@@ -45,28 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 echo "<script>alert('Maintenance record not found!');</script>";
             }
-        } else {
-            // Handle the 'start' action
-            $query = "SELECT MAX(maintenance_id) AS max_id FROM maintenance";
-            $result = mysqli_query($con, $query);
-            if ($result) {
-                $row = mysqli_fetch_assoc($result);
-                $maxMaintenanceId = $row['max_id'];
-                $newMaintenanceId = $maxMaintenanceId + 1;
-
-                $query = "INSERT INTO maintenance (maintenance_id, booking_id, progress)
-                          VALUES ('$newMaintenanceId', '$bookingId', 'In Service')";
-                $queryRun = mysqli_query($con, $query);
-
-                if (!$queryRun) {
-                    die("Error: " . mysqli_error($con));
-                } else {
+        } else {    
                     $updateQuery = "UPDATE booking SET booking_confirmation = 'In Service' WHERE booking_id = '$bookingId'";
                     mysqli_query($con, $updateQuery);
-                    echo "<script>alert('Maintenance started successfully!');</script>";
-                }
-            }
-        }
+                    echo "<script>alert(' started successfully!');</script>";
+                } 
     }
 }
 ?>
@@ -192,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td>" . $row["booking_time"] . "</td>
                         <td>" . $row["booking_description"] . "</td>
                         <td>
-                            <form method='post' action='booking(staff).php'>
+                            <form method='post' action='MT.php'>
                             <input type='hidden' name='booking_id' value='" . $row['booking_id'] . "'>
                             <input type='hidden' name='car_plate' value='" . $row['car_plate'] . "'>
                             <button type='submit' name='start' class='start'>Start</button>
@@ -236,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td>" . $row["booking_time"] . "</td>
                         <td>" . $row["booking_description"] . "</td>
                         <td>
-                            <form method='post' action='booking(staff).php'>
+                            <form method='post' action='MT.php'>
                             <input type='hidden' name='booking_id' value='" . $row['booking_id'] . "'>
                             <input type='hidden' name='car_plate' value='" . $row['car_plate'] . "'>
                             <button type='submit' name='continue' class='continue'>Continue</button>

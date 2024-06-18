@@ -12,6 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-button'])) {
     $serviceDetails = $_POST['hidden-car-issue'];
     $quantityUsedArray = is_array($_POST['quantity_used']) ? $_POST['quantity_used'] : [];
     $sessionID = $_SESSION['mySession'];
+  
+    $car_plate_query = "SELECT car_plate FROM booking WHERE booking_id = '$bookingId'";
+    $car_plate_result = mysqli_query($con, $car_plate_query);
+    if ($car_plate_result) {
+        $car_plate_row = mysqli_fetch_assoc($car_plate_result);
+        $carPlate = $car_plate_row['car_plate']; // Now you have the car plate
+    }
 
     // Execute the query to get the booking_date
     $service_date_query = "SELECT booking_date FROM booking WHERE booking_id = '$bookingId'";
@@ -31,14 +38,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit-button'])) {
             // Loop through the submitted items
             foreach ($quantityUsedArray as $itemId => $quantityUsed) {
                 if ($quantityUsed > 0) {
-                    $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress, user_id, service_date)
-                              VALUES ('$newMaintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done', '$sessionID', '$service_date')";
+                    $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress, user_id, service_date, car_plate)
+                              VALUES ('$newMaintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done', '$sessionID', '$service_date', '$carPlate')";
                     $queryrun = mysqli_query($con, $query);
                     if (!$queryrun) {
                         die("Error: " . mysqli_error($con));
                     }
                 }
             }
+            $updateQuery = "UPDATE booking SET booking_confirmation = 'Done' WHERE booking_id = '$bookingId'";
+            mysqli_query($con, $updateQuery);
+            echo "<script>alert('Service done successfully!');</script>";
+
         }
     } else {
         die("Error fetching service date: " . mysqli_error($con));

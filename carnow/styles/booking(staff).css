@@ -176,6 +176,7 @@ aside .sidebar a:hover {
 /* Additional styles from the second CSS */
 .main {
     width: 90%;
+    min-width:900px;
     max-width: 1200px;
     margin: 20px auto;
     text-align: center;
