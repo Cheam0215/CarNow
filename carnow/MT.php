@@ -234,7 +234,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="record-section" id="record-section">
                     <form id="car-maintenance-form" method="POST" action="MT.php" onsubmit="handleSubmit(event)">
                         
-                    <h3>Car Issues</h3>
+                    <h3>Service Details</h3>
                         <?php
                         if (isset($bookingId) && isset($carPlate)) {
                             $sql = "SELECT * FROM booking b
