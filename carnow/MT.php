@@ -36,7 +36,7 @@ if (isset($_POST['start'])) {
 if (isset($_POST['continue'])) {
     $bookingId = $_POST['booking_id'];
     $carPlate = $_POST['car_plate'];
-    $query = "SELECT booking_id FROM booking WHERE booking_id = '$bookingId' AND booking_confirmation = 'In Service'";
+    $query = "SELECT maintenance_id FROM maintenance WHERE booking_id = '$bookingId' AND progress = 'In Service'";
     $result = mysqli_query($con, $query);
     if (mysqli_num_rows($result) > 0) {
         echo "<script>alert('Maintenance already in progress!');</script>"; 
@@ -50,16 +50,6 @@ if (isset($_POST['submit-button'])) {
     $bookingId = $_POST['booking_id'];
     $quantityUsedArray = is_array($_POST['quantity_used']) ? $_POST['quantity_used'] : [];
     $sessionID = $_SESSION['mySession'];
-    
-    $service_date_query = "SELECT booking_date FROM booking WHERE booking_id = '$bookingId'";
-    $service_date_result = mysqli_query($con, $service_date_query);
-    $service_date_row = mysqli_fetch_assoc($service_date_result);
-    $service_date = $service_date_row['booking_date']; // Now you have the actual date
-
-    $car_plate_query = "SELECT car_plate FROM booking WHERE booking_id = '$bookingId'";
-    $car_plate_result = mysqli_query($con, $car_plate_query);
-    $car_plate_row = mysqli_fetch_assoc($car_plate_result);
-    $carPlate = $car_plate_row['car_plate']; // Now you have the car plate
     
     // Retrieve the maintenance id before deletion
     $maintenanceIdQuery = "SELECT maintenance_id FROM maintenance WHERE booking_id = '$bookingId'";
@@ -77,18 +67,10 @@ if (isset($_POST['submit-button'])) {
             $itemResult = mysqli_query($con, $itemQuery);
             $itemName = mysqli_fetch_assoc($itemResult)['item_name'];
             $serviceDetails = "Change of $itemName";
-            $itemQuantityQuery = "SELECT quantity FROM inventory WHERE item_id = '$itemId'";
-            $totalitemQuantity = mysqli_fetch_assoc(mysqli_query($con, $itemQuantityQuery))['quantity'];
-            $newQuantity = $totalitemQuantity - $quantityUsed;
-
             
-            $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress,user_id,service_date,car_plate)
-                        VALUES ('$maintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done','$sessionID','$service_date','$carPlate')";
-            $updateQuantityQuery = "UPDATE inventory SET quantity = '$newQuantity' WHERE item_id = '$itemId'";
-            $updateQuantityQueryrun = mysqli_query($con, $updateQuantityQuery);
+            $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, service_details, quantity_used, progress)
+                        VALUES ('$maintenanceId', '$bookingId', '$itemId', '$serviceDetails', '$quantityUsed', 'Done')";
             $queryrun = mysqli_query($con, $query);
-
-
             if (!$queryrun) {
                 die("Error: " . mysqli_error($con));
             }
@@ -96,10 +78,12 @@ if (isset($_POST['submit-button'])) {
                 $updateQuery = "UPDATE booking SET booking_confirmation = 'Done' WHERE booking_id = '$bookingId'";
                 mysqli_query($con, $updateQuery);
                 
+                $subtractQuery = "UPDATE inventory SET quantity = quantity - '$quantityUsed' WHERE item_id = '$itemId'";
+                mysqli_query($con, $subtractQuery);
             }
-        }
+        }   
     }
-    echo "<script>alert('Service completed successfully!');</script>"; 
+    echo "<script>alert('Maintenance completed successfully!');</script>"; 
 }
     
 
@@ -259,14 +243,14 @@ if ($result && mysqli_num_rows($result) > 0) {
                             $result = mysqli_query($con, $sql);
 
                             if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
+                                $row = mysqli_fetch_assoc($result) ;
                                     echo "<div class='booking-details'>";
                                     echo "<p>Booking ID: B0" . $row['booking_id'] . "</p>";
                                     echo "<p>Car Plate: " . $row['car_plate'] . "</p>";
                                     echo "<p>Service Type: " . $row['service_type'] . "</p>";
                                     echo "<p>Booking Description: " . $row['booking_description'] . "</p>";
                                     echo "</div>";
-                                }
+                                
                             } else {
                                 echo "<p>No booking details found.</p>";
                             }

@@ -71,10 +71,18 @@ img {
     object-fit: cover;
 }
 
-h1, h2, h3, small, p {
+h1, h2, h3, small {
     font-weight: 800;
     font-size: 1.8rem;
 }
+
+p{
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+
 
 .text-muted {
     color: var(--color-info-dark);
@@ -111,8 +119,15 @@ table {
     text-align: center;
 
 }
+
+td.item_preview {
+    display: flex;
+    flex-direction: column;
+}
 input[type="number"] {
     text-align: center;
+    background: rgb(215, 215, 215);
+    border-radius: 2px;
 }
 
 .container {
@@ -322,6 +337,8 @@ ul li .active .uil {
 
 .record-section {
     padding: 30px;
+    max-height: 500px; /* Or use max-height if you prefer */
+    overflow-y: auto; 
 }
 
 .payment-section, .done-section {
@@ -381,7 +398,7 @@ ul li .active .uil {
     width: 60px;
     height: 60px;
     object-fit: cover;
-    justify-content: center;
+    align-self: center;
 }
 
 .item_id, .item_name {

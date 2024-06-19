@@ -63,7 +63,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <small class="text-muted">Staff</small>
                     </div>
                     <div class="profile-photo">
-                    <img src="images/profile-icon.png">
+                        <img src="images/profile-icon.png">
                     </div>
                 </div>
             </div>
@@ -75,7 +75,12 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
             <div class="maintenance-history">
                 <?php
-                $sql = "SELECT * FROM maintenance WHERE user_id = '$sessionID' ";
+                $sql = "SELECT * FROM maintenance m
+                        INNER JOIN booking b on b.booking_id = m.booking_id
+                        INNER JOIN car c on c.car_plate = b.car_plate
+                        WHERE service_details IS NOT NULL
+                        ";
+
                 $result = mysqli_query($con, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     echo "<table id='historyTable'>";
@@ -84,9 +89,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                           <th>Service ID</th>
                           <th>Car Plate</th>
                           <th>Service Details</th>
+                          <th>Item ID</th>
                           <th>Quantity Used</th>
                           <th>Progress</th>
-                          <th> Service Date</th>
+                          <th>Service Date</th>
                           </tr>
                           </thead>
                           <tbody>";
@@ -95,9 +101,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                               <td>" . $row["maintenance_id"] . "</td>
                               <td>" . $row["car_plate"] . "</td>
                               <td>" . $row["service_details"] . "</td>
+                              <td>" . $row["item_id"] . "</td>
                               <td>" . $row["quantity_used"] . "</td>
                               <td>" . $row["progress"] . "</td>
-                              <td>" . $row["service_date"] . "</td>
+                              <td>" . $row["booking_date"] . "</td>
                               </tr>";
                     }
                     echo "</tbody></table>";
