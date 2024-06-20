@@ -198,12 +198,18 @@ if ($result && $result->num_rows > 0) {
         $result_feedback = $con->query($sql);
 
         if ($result_feedback && $result_feedback->num_rows > 0) {
-          echo '    <button class="buttons" onclick="openModal(' . $maintenance_id . ')">Feedback <span class="material-symbols-outlined">forum</span></button>';
-        }
-        
-        echo '    <button  onclick="window.location.href=\'my_receipt.php?main_id=' . $maintenance_id . '\'" class="buttons">Receipt<span class="material-symbols-outlined">
+          // Feedback already exists
+          echo '    <button  onclick="window.location.href=\'my_receipt.php?main_id=' . $maintenance_id . '\'" class="buttons">Receipt<span class="material-symbols-outlined">
     receipt
     </span></button>';
+        } else {
+          
+          echo '    <button class="buttons" onclick="openModal(' . $maintenance_id . ')">Feedback <span class="material-symbols-outlined">forum</span></button>';
+          echo '    <button  onclick="window.location.href=\'my_receipt.php?main_id=' . $maintenance_id . '\'" class="buttons">Receipt<span class="material-symbols-outlined">
+    receipt
+    </span></button>';
+        }
+        
         echo '  </div>';
         echo '</div>';
       }
