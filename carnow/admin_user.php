@@ -192,7 +192,7 @@ if ($result && $result->num_rows > 0) {
     echo '            <div class="left">';
     echo '                <div class="header"><strong>Personal Details</strong></div>';
     echo '                <div class="G1">';
-    echo '                    <div><strong>Customer ID:</strong></div>';
+    echo '                    <div><strong>User ID:</strong></div>';
     echo '                    <div>'.$user_id.'</div>';
     echo '                </div>';
     echo '                <div class="G1">';
