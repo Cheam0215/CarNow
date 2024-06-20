@@ -1,0 +1,260 @@
+section {
+  width: 80vw;
+  margin: 6.5rem auto 0;
+}
+
+.tabs {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 3rem;
+}
+
+.tabs li {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #FFF;
+  cursor: pointer;
+  position: relative;
+
+}
+
+.tabs li::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: red;
+  border-radius: 30px;
+  transition: width 0.8s ease;
+}
+
+.container{
+  position: relative;
+  height: 60vh;
+  width: 80vw;
+}
+
+.appointment {
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #ccc;
+  min-height: 200px;
+  margin-bottom: 1rem;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  display: none;
+  min-height: 500px;
+}
+
+.service-info p {
+  font-size: 1.2rem;
+  margin: 1rem 1rem 1rem 8rem;
+  text-align: left;
+
+}
+
+
+.content.active {
+  display: block;
+  animation: fade 1s ease;
+}
+
+.tabs li.active::after {
+  width: 100%;;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  html {
+    font-size: 70%;
+  }
+  section{
+    width: 100%;
+  }
+  
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  
+  
+  padding-top: 50px;
+  height: 500px;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 400px;
+}
+.modal form p {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #333;
+}
+.modal form .divider {
+  height: 2px;
+  background: #7d7d7d;
+  margin-bottom: 20px;
+}
+.modal form label {
+  margin-bottom: 5px;
+  color: #555;
+}
+.modal form select,
+.modal form textarea,
+.modal form input[type="text"],
+.modal form input[type="email"] {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+.modal form button {
+  padding: 10px;
+  background-color: #f50202;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+.modal form button:hover {
+  
+  transform: scale(0.97);
+}
+
+.car-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1rem;
+  height: max-content;
+  flex: 0.2;
+  
+  img{
+    width: 120px;
+    height: 120px;
+  
+  }
+}
+
+.service-info {
+  margin-bottom: 1rem;
+  flex: 0.5;
+  
+  
+
+}
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  align-items: center;
+  flex: 0.3;
+  
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.3s ease ;
+  font-weight: bold;
+}
+
+.buttons:hover {
+  transform: scale(0.97);
+  transition: all 0.3s ease ;
+}
+
+#cancelButton {
+  background-color: #f50202;
+  color: white;
+  ;
+
+}
+
+span.material-symbols-outlined {
+  margin-left: 10px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 1rem;
+  
+  a {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    padding: 0.5em;
+  }
+}
+
+.activePage {
+  background-color: #f50202;
+}
+
