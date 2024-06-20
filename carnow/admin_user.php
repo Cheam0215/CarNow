@@ -18,7 +18,7 @@
 <aside>
     <div class="toggle">
         <div class="logo">
-            <img src="Pic/Logo.jpg" alt="Logo">
+            <img src="logo_image/carnowLogo.png" alt="Logo">
             <h2>Car<span class="now">Now</span></h2>
         </div>
         <div class="close" id="close-btn">
@@ -29,45 +29,35 @@
     </div>
 
     <div class="sidebar">
-        <a href="Admin_Page.html" class="active">
+        <a href="Admin_Page.php">
             <span class="material-symbols-sharp">
                 dashboard
             </span>
             <h3>Dashboard</h3>
         </a>
-        <a href="#">
-            <span class="material-symbols-sharp">
-                summarize
-            </span>
-            <h3>Report</h3>
-        </a>
 
-        <a href="#">
+
+        <a href="admin_user.php?user_id=2" class="active">
             <span class="material-symbols-sharp">
                 person_outline
             </span>
             <h3>User</h3>
         </a>
-        <a href="#">
-            <span class="material-symbols-sharp">
-                badge
-            </span>
-            <h3>Staff</h3>
-        </a>
-        <a href="#">
+
+        <a href="admin_inventory.php">
             <span class="material-symbols-sharp">
             inventory_2
             </span>
             <h3>Inventory</h3>
         </a>
-        <a href="#">
+        <a href="admin_feedback.php">
             <span class="material-symbols-sharp">
             chat
             </span>
             <h3>Feedback</h3>
         </a>
         
-        <a href="#">
+        <a href="logout.php">
             <span class="material-symbols-sharp">
                 logout
             </span>
@@ -106,7 +96,7 @@ if ($result && $result->num_rows > 0) {
    
 
 echo'<div>';
-    echo '<div class="search-container" id="s">';
+    echo '<div class="search-container" id="search">';
     echo '    <form id="search-form" onsubmit="return false;">';
     echo '        <input type="text" placeholder="Search.." id="search-input" onkeyup="searchTable()">';
     echo '    </form>';
@@ -161,16 +151,18 @@ echo'<div>';
     if (isset($_GET['user_id'])) {
     $user_id = intval($_GET['user_id']);
 
-    $stmt = $con->prepare("SELECT
+    $sql = "SELECT
         c.car_plate, c.brand, c.model, c.color, c.year,
         u.username, u.email, u.contact_number, u.ic_number, u.user_id,u.user_image
         FROM user u 
         LEFT JOIN car c ON u.user_id = c.user_id
-        WHERE u.user_id = ?");
+        WHERE u.user_id = $user_id";
 
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $con->query($sql);
+
+    
+    
+
 
     
 if ($result && $result->num_rows > 0) {
@@ -180,8 +172,8 @@ if ($result && $result->num_rows > 0) {
     $email = $row['email'];
     $contact_number = $row['contact_number'];
     $ic_number = $row['ic_number'];
-    $user_id = $row ['user_id'];
-    $picture = $row ['user_image'];
+    $user_id = $row['user_id'];
+    $picture = $row['user_image'];
 
 
     echo '                    </tbody>';
@@ -191,7 +183,7 @@ if ($result && $result->num_rows > 0) {
     echo '    </div>';
     echo '    <div class="Information" id="userDetails">';
     echo '        <div class="avatar-container">';
-    echo '            <img src='.($picture ? $picture : 'images/profile-icon.png'). ' alt="User Avatar" class="avatar">';
+    echo '<img src="' . ($picture ? 'user_image/' . $picture : 'images/profile-icon.png') . '" alt="User Avatar" class="avatar">';
     echo '        </div>';
     echo '        <div class="name-info">';
     echo '           '.$username.'';
@@ -223,7 +215,7 @@ if ($result && $result->num_rows > 0) {
     echo '                </div>';
     echo '            </div>';
     echo '        </div>';
-    echo '        <h3 class="Car-detials"><strong>Car Detials</strong> </h3>';
+    
     echo '        <div class="personal-info">';
     echo '            <div class="left1">';
 
@@ -247,7 +239,7 @@ if ($result && $result->num_rows > 0) {
 }
     }
             echo '    <div class="Service-history">';
-            echo '        <a href="#">CARNOW Sdn. Bhd</a>';
+            echo '        <a >CARNOW Sdn. Bhd</a>';
             echo '    </div>';
             echo '</div>';
             echo '</div>';
@@ -264,7 +256,7 @@ if ($result && $result->num_rows > 0) {
     echo '    <div class="popout-content">';
     echo '        <span id="closeBtn">&times;</span>';
     echo '        <h2>Register Staff</h2>';
-    echo '        <form id="staffForm" method="POST" action="register.php">';
+    echo '        <form id="staffForm" method="POST" action="admin_register.php" enctype="multipart/form-data">';
     echo '            <label for="name">Name:</label>';
     echo '            <input type="text" id="name" name="name" required><br><br>';
     echo '            <label for="email">Email:</label>';
@@ -276,8 +268,8 @@ if ($result && $result->num_rows > 0) {
     echo '            <label for="ic_number">IC Number:</label>';
     echo '            <input type="text" id="ic_number" name="ic_number" required><br><br>';
     echo '            <label for="picture">Picture:</label>';
-    echo '            <input type="text" id="picture" name="picture" required><br><br>';
-    echo '            <input type="submit" value="Register">';
+    echo '            <input type="file" id="user-image" name="user_image" required><br><br>';
+    echo '            <button type="submit" name="add-staff-button" id="addStaffBtn">Add Staff</button>';
     echo '        </form>';
     echo '    </div>';
     echo '</div>';
@@ -294,8 +286,21 @@ if ($result && $result->num_rows > 0) {
     echo "0 results";
 }
 
-$con->close();
+
 ?>
+ <div class="right-section">
+            <div class="nav">
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b><?php echo $username ?></b></p>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="user_image/<?php echo $picture?>">
+                    </div>
+                </div>
+            </div>
+        </div>
      
 </body>
 </html>

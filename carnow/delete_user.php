@@ -1,15 +1,9 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Carnow";
 
+include ("connection.php");
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
 }
 
 if (isset($_GET['main_id'])) {
@@ -19,15 +13,15 @@ if (isset($_GET['main_id'])) {
     
     $sql = "DELETE FROM user WHERE user_id = $id";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('User deleted successfully'); window.location.href = 'admintest.php?user_id=18';</script>";
+    if ($con->query($sql) === TRUE) {
+        echo "<script>alert('User deleted successfully'); window.location.href = 'admin_user.php?user_id=2';</script>";
     } else {
-        echo "Error deleting user: " . $conn->error;
+        echo "Error deleting user: " . $con->error;
     }
 } else {
     echo "Main ID not provided.";
 }
 
 
-$conn->close();
+$con->close();
 ?>
