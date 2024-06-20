@@ -162,7 +162,16 @@ if ($result && $result->num_rows > 0) {
         echo '    <p><b>Amount Paid: </b>RM ' . $amount . '</p>';
         echo '  </div>';
         echo '  <div class="actions">';
-        echo '    <button class="buttons" onclick="openModal(' . $maintenance_id . ')">Feedback <span class="material-symbols-outlined">forum</span></button>';
+        
+        include ("connection.php");
+
+        $sql = "SELECT * FROM feedback WHERE maintenance_id = '$maintenance_id'";
+        $result = $con->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+          echo '    <button class="buttons" onclick="openModal(' . $maintenance_id . ')">Feedback <span class="material-symbols-outlined">forum</span></button>';
+        }
+        
         echo '    <button  onclick="window.location.href=\'Receipt(DONE).php?main_id=' . $maintenance_id . '\'" class="buttons">Receipt<span class="material-symbols-outlined">
 receipt
 </span></button>';
