@@ -1,8 +1,4 @@
-body{
-  display:flex;
-  color: var(--color-dark);
-  background-color: var(--color-background);
-}
+
 
 #search-form {
   display: flex;
@@ -57,11 +53,6 @@ button:hover {
 
 }
 
-.user_container{
-  display: flex;
-  box-shadow: 0 4px 4px 0 rgba(0, 145, 255, 0.3), 0 8px 12px 6px rgba(58, 94, 122, 0.15);
-}
-
 .button_user{
   display: flex;
   gap: 20px;
@@ -75,7 +66,10 @@ button:hover {
   border: 2px solid black;
   padding: 15px 15px;
   height: 675px;
-  
+  display: flex;
+  box-shadow: 0 4px 4px 0 rgba(0, 145, 255, 0.3), 0 8px 12px 6px rgba(58, 94, 122, 0.15);
+  justify-content: space-around;
+  width: 80vw;
 }
 .Add{
   margin-left: 325px;
@@ -143,7 +137,7 @@ th, td {
   height: 135px;
   border-radius: 50%;
   object-fit: cover; 
-  border: 2px solid #007BFF; 
+  border: none;
   margin-top: 15px;
 }
 .name-info{
@@ -395,4 +389,8 @@ form input[type="submit"]:hover {
   color: blue; 
   border: 1px solid #007bff; 
 
+}
+
+button#addStaffBtn {
+  align-self: center;
 }

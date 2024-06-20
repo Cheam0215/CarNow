@@ -120,24 +120,12 @@
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="admin_page.php">
-                    <span class="material-symbols-sharp">
-                        summarize
-                    </span>
-                    <h3>Report</h3>
-                </a>
 
-                <a href="#">
+                <a href="admin_user.php?user_id=2">
                     <span class="material-symbols-sharp">
                         person_outline
                     </span>
                     <h3>User</h3>
-                </a>
-                <a href="#">
-                    <span class="material-symbols-sharp">
-                        badge
-                    </span>
-                    <h3>Staff</h3>
                 </a>
                 <a href="admin_inventory.php">
                     <span class="material-symbols-sharp">

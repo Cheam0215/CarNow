@@ -46,7 +46,7 @@ $(document).ready(function() {
   $('#animatedElement').on('click', 'tr', function() {
       var userId = $(this).data('id');
       $.ajax({
-          url: 'admintest.php',
+          url: 'admin_user.php',
           type: 'GET',
           data: { user_id: userId },
           success: function(response) {
@@ -59,17 +59,18 @@ $(document).ready(function() {
 });
 
 
-
-
-
-
 function deleteUser(event, user_id) {
   event.stopPropagation(); 
   if (confirm('Are you sure you want to delete this user?')) {
 
-      window.location.href = 'DELETE.php?main_id=' + user_id;
+      window.location.href = 'delete_user.php?main_id=' + user_id;
   }
 }
+
+function editUser(event, user_id) {
+    event.stopPropagation(); 
+    window.location.href = 'edit_user.php?main_id=' + user_id;
+    }
 
 
 
