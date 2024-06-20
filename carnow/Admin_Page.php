@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="styles/admin_page.css" rel="stylesheet">
-    <link href="styles/admin_feedback.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/dashboard.js" defer></script>
-    <!--<script src="scripts/admin_feedback.js" defer></script>-->
     <title>Admin Webpage</title>
 </head>
 <body>
@@ -65,18 +62,23 @@
         }
 
 
-        $query4 = "SELECT COUNT(feedback_id) AS total_of_feedback from feedback;";
+        $query4 = "SELECT COUNT(payment_id) AS total_of_sales from payment;";
         $result4= mysqli_query($con, $query4);
 
         if ($result4) {
             // Fetch the total donation amount
             $row = mysqli_fetch_assoc($result4);
-            $totalFeedbacks = $row['total_of_feedback'];
+            $totalSales = $row['total_of_sales'];
     
+            // Display the total donation amount
+            if ($totalSales !== null) {
+                $totalSales = number_format($totalSales, 0);
+            } else {
+                $totalSales = "$" . number_format(0, 2);
+            }
         } else {
-            // Display donation as $0 if the table is empty
             echo "<h1>No Record Thus Far</h1>";
-            echo "Error: " . mysqli_error($con); // Add this line for debugging
+            echo "Error: " . mysqli_error($con); 
         }
 
 
@@ -89,7 +91,7 @@
             $username = $row['username'];
         } else {
             echo "<h1>No Record Thus Far</h1>";
-            echo "Error: " . mysqli_error($con);    
+            echo "Error: " . mysqli_error($con); 
         }
 
 
@@ -112,13 +114,13 @@
             </div>
 
             <div class="sidebar">
-                <a href="admin_page.php">
+                <a href="admin_page.php" class="active">
                     <span class="material-symbols-sharp">
                         dashboard
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="#">
+                <a href="admin_page.php">
                     <span class="material-symbols-sharp">
                         summarize
                     </span>
@@ -143,7 +145,7 @@
                     </span>
                     <h3>Inventory</h3>
                 </a>
-                <a href="admin_feedback.php" class="active">
+                <a href="admin_feedback.php">
                     <span class="material-symbols-sharp">
                     chat
                     </span>
@@ -164,7 +166,8 @@
         <main class="content">
                 <div class="header">
                     <div class="left">
-                        <h1>Feedbacks</h1>
+                        <h1>Dashboard</h1>
+
                     </div>
                 </div>
 
@@ -174,8 +177,8 @@
                         calendar_today
                     </span>
                     <span class="info">
-                        <h3><?php echo $totalFeedbacks?></h3>
-                        <p>Number of Feedbacks</p>
+                        <h3><?php echo $totalSales?></h3>
+                        <p>Number of Sales</p>
                     </span>
                 </div>
 
@@ -211,86 +214,55 @@
                     
             </div>
 
-           
-
-            <div class="search-container">
-                <div class="name-container">
-                    <form id="search-form" method="post">
-                        <input name="feedback" type="text" placeholder="Search by Feedback ID or Name" id="search-input">
-                        <div class="rating-search">
-                            <label for="rating-filter">Filter by Rating : </label>
-                            <select name="rating-filter" id="rating-filter">
-                                <option value="">All</option>
-                                <option value="Very Poor">Very Poor</option>
-                                <option value="Poor">Poor</option>
-                                <option value="Average">Average</option>
-                                <option value="Good">Good</option>
-                                <option value="Outstanding">Outstanding</option>
-                            </select>
-
-                        </div>
-                        
-                        <button type="submit" name="search-feedback"><span class="material-symbols-outlined">search</span></button>
-                    </form>
-
-                </div>
-                
+            <div class="chart">
+                <h2>Revenue Chart</h2>
+                <canvas id="chart"></canvas>
             </div>
 
-    <div class="feedback-container">
-        <table class="feedback-table">
-            <thead>
-                <tr>
-                    <th>Feedback ID</th>
-                    <th>Maintenance ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Description</th>
-                    <th>Rating</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <?php
-                      if (isset($_POST['search-feedback'])) {
-                        $searchFeedback = $_POST['feedback'];
-                        $ratingFilter = $_POST['rating-filter'];
-                        $queryFeedback = "SELECT f.feedback_id, u.username, u.email, f.maintenance_id, f.description, f.rating FROM feedback f
-                                          INNER JOIN user u ON f.user_id = u.user_id
-                                          WHERE (f.feedback_id LIKE '%$searchFeedback%' OR u.username LIKE '%$searchFeedback%')";
+            <div class="recent-orders">
+                <h2>Recent Payments</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>User Name</th>
+                            <th>Amount</th>
+                            <th>Payment Method</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            include("connection.php");
 
-                        if (!empty($ratingFilter)) {
-                          $queryFeedback .= " AND f.rating = '$ratingFilter'";
-                        }
-                      } else {
-                        $queryFeedback = "SELECT f.feedback_id, u.username, u.email, f.maintenance_id, f.description, f.rating FROM feedback f
-                                        INNER JOIN user u ON f.user_id = u.user_id";
-                      }
-                      $resultFeedback = mysqli_query($con, $queryFeedback);
+                            $query2 = "SELECT payment_id, username, time, amount, payment_method, payment_status FROM payment 
+                            JOIN user ON payment.user_id = user.user_id
 
-                      if ($resultFeedback) {
-                        while ($rowFeedback = mysqli_fetch_assoc($resultFeedback)) {
-                          echo "<tr>";
-                          echo "<td>F00" . $rowFeedback['feedback_id'] . "</td>";
-                          echo "<td>M00" . $rowFeedback['maintenance_id'] . "</td>";
-                          echo "<td>" . $rowFeedback['username'] . "</td>";
-                          echo "<td>" . $rowFeedback['email'] . "</td>";
-                          echo "<td>" . $rowFeedback['description'] . "</td>";
-                          echo "<td>" . $rowFeedback['rating'] . "</td>";
-                          echo "<td><a onclick='return confirm(\"Are you sure you want to delete this feedback?\")' href='delete_feedback.php?feedback_id=" . $rowFeedback['feedback_id'] . "' class='delete'>
-                                    <span class='material-symbols-outlined'>delete</span>
-                                </a></td>";
-                          echo "</tr>";
-                        }
-                      } else {
-                        echo "<tr><td colspan='5'>No feedbacks found</td></tr>";
-                      }
-                    ?>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                            ORDER BY time DESC LIMIT 10;";
+                            $result2 = mysqli_query($con, $query2);
+
+                            if ($result2) {
+                                while ($row = mysqli_fetch_assoc($result2)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['payment_id'] . "</td>";
+                                    echo "<td>" . $row['username'] . "</td>";
+                                    echo "<td>" . $row['amount'] . "</td>";
+                                    echo "<td>" . $row['payment_method'] . "</td>";
+                                    echo "<td>" . $row['time'] . "</td>";
+                                    echo "<td>" . $row['payment_status'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<h1>No Record Thus Far</h1>";
+                                echo "Error: " . mysqli_error($con); 
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+
                                     
         </main>
 
@@ -304,11 +276,7 @@
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <?php if ($profilePic == NULL): ?>
-                            <img src="images/profile-icon.png" alt="User Avatar">
-                        <?php else: ?>
-                            <img src="user_image/<?php echo $profilePic; ?>" alt="User Avatar">
-                        <?php endif; ?>
+                        <img src="user_image/<?php echo $profilePic?>">
                     </div>
                 </div>
             </div>
@@ -317,6 +285,6 @@
       
     </div>
 
-    
+
 </body>
 </html>

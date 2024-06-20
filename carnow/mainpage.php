@@ -49,7 +49,7 @@
               <li><a href="#about-us">About us</a></li>
           
               <li><a href="book_appointment.php" id="serviceButton">Book a Service</a></li>
-              <li><a href="#">My Bookings</a></li>
+              <li><a href="my_booking.php">My Bookings</a></li>
               <li>
                   <div class="profile-menu">
                       <button onclick="myFunction()" class="dropbtn"><?php echo htmlspecialchars(explode(' ', $username)[0]); ?>

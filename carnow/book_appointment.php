@@ -61,7 +61,7 @@
                         <li><a href="mainpage.php">Home</a></li>
                         <li><a href="mainpage.php#about-us">About us</a></li>
                         <li><a href="#" id="serviceButton">Book a Service</a></li>
-                        <li><a href="#">My Bookings</a></li>
+                        <li><a href="my_booking.php">My Bookings</a></li>
                         <?php if(isset($_SESSION['mySession'])): 
                             include("connection.php");
                             $sessionID = $_SESSION['mySession'];
@@ -143,7 +143,7 @@
                       }
                       echo '</select>';
                     } else {
-                      echo '<input type="text" id="carPlate" name="carPlate" placeholder="Enter Car Plate" required><br>';
+                        echo '<script>alert("Please register a car before booking an appointment!");window.location.href="my_profile.php"</script>';
                     }
                     ?>
                     

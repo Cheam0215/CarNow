@@ -26,12 +26,20 @@
 
     
         include("connection.php");
-        $sql = "SELECT maintenance.item_id, maintenance.quantity_used, inventory.item_name, inventory.cost,inventory.item_image
-                FROM maintenance
-                INNER JOIN inventory ON maintenance.item_id = inventory.item_id
-                WHERE maintenance.maintenance_id = 1
-                ORDER BY inventory.cost ";
 
+        if(isset($_GET['maintenance_id']) && isset($_GET['user_id'])) {
+            $maintenance_id = $_GET['maintenance_id'];
+            $user_id = $_GET['user_id'];
+
+            $sql = "SELECT maintenance.item_id, maintenance.quantity_used, inventory.item_name, inventory.cost, inventory.item_image
+                            FROM maintenance
+                            INNER JOIN inventory ON maintenance.item_id = inventory.item_id
+                            INNER JOIN payment ON maintenance.maintenance_id = payment.maintenance_id
+                            WHERE maintenance.maintenance_id = $maintenance_id AND payment.payment_status = 'UNPAID'
+                            ORDER BY inventory.cost";
+        } else {
+            echo "Maintenance ID not provided.";
+        }   
         $subtotal = 0;
         
         $result = mysqli_query($con, $sql);
@@ -119,6 +127,8 @@
                 
             </div>
             <input type="hidden" name="payment_method" value="PayPal">
+            <input type="hidden" name="maintenance_id" value="<?php echo $maintenance_id; ?>">
+            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         </div>
         <button type="submit" name="payment_button" class="paypal-button">Pay Now</button>
     </div>
@@ -150,6 +160,8 @@
                 
             </div>
             <input type="hidden" name="payment_method" value="Touch n Go">
+            <input type="hidden" name="maintenance_id" value="<?php echo $maintenance_id; ?>">
+            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         </div>
         <button type="submit" name="payment_button" class="tng-button">Approve</button>
     </div>
