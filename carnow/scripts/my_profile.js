@@ -15,8 +15,7 @@ $(document).ready(function() {
     // Handle click event for edit buttons
     $(document).on("click", ".edit-btn", function(event) {
         event.preventDefault();
-        
-        // Find the closest form relative to the clicked edit button
+
         var $form = $(this).closest('.edit_form');
         
         $.ajax({

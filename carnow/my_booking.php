@@ -119,17 +119,46 @@ if ($result && $result->num_rows > 0) {
     <?php
     include ("connection.php");
 
-    $sql = "SELECT  m.maintenance_id, 
-      b.booking_date,b.booking_id,b.service_type,b.booking_time,
-      c.car_plate,c.brand,c.model,
-      p.time,p.amount,p.payment_id,
-      u.user_id FROM user u 
-      JOIN car c ON u.user_id = c.user_id
-      JOIN booking b ON c.car_plate = b.car_plate
-      JOIN maintenance m ON b.booking_id = m.booking_id
-      JOIN payment p ON u.user_id= p.user_id 
-      WHERE m.progress = 'Done' AND p.payment_status = 'PAID'
-      GROUP BY m.maintenance_id";
+    $limit = 2; // Number of appointments to show per page
+
+    // Get the total number of appointments
+    $sql = "SELECT COUNT(*) as total FROM (
+      SELECT m.maintenance_id
+      FROM maintenance m
+      INNER JOIN booking b ON m.booking_id = b.booking_id
+      INNER JOIN car c ON b.car_plate = c.car_plate
+      WHERE c.user_id = '".$_SESSION['mySession']."'
+      GROUP BY m.maintenance_id
+    ) AS appointments";
+
+    $result = $con->query($sql);
+    $row = $result->fetch_assoc();
+    $totalAppointments = $row['total'];
+
+    // Calculate the total number of pages
+    $totalPages = ceil($totalAppointments / $limit);
+
+    // Get the current page number
+    if (isset($_GET['page'])) {
+      $currentPage = $_GET['page'];
+    } else {
+      $currentPage = 1;
+    }
+
+    // Calculate the offset for the query
+    $offset = ($currentPage - 1) * $limit;
+
+    // Retrieve the appointments for the current page
+    $sql = "SELECT p.payment_id, p.amount, m.maintenance_id, 
+            b.booking_id, b.booking_date, b.booking_time, b.service_type, 
+            c.car_plate, c.brand, c.model  
+            FROM payment p
+            INNER JOIN maintenance m ON p.maintenance_id = m.maintenance_id
+            INNER JOIN booking b ON m.booking_id = b.booking_id
+            INNER JOIN car c ON b.car_plate = c.car_plate
+            WHERE p.payment_status = 'PAID' AND c.user_id = '".$_SESSION['mySession']."'
+            GROUP BY p.payment_id
+            LIMIT $limit OFFSET $offset";
 
     $result = $con->query($sql);
 
@@ -166,15 +195,15 @@ if ($result && $result->num_rows > 0) {
         include ("connection.php");
 
         $sql = "SELECT * FROM feedback WHERE maintenance_id = '$maintenance_id'";
-        $result = $con->query($sql);
+        $result_feedback = $con->query($sql);
 
-        if ($result && $result->num_rows > 0) {
+        if ($result_feedback && $result_feedback->num_rows > 0) {
           echo '    <button class="buttons" onclick="openModal(' . $maintenance_id . ')">Feedback <span class="material-symbols-outlined">forum</span></button>';
         }
         
-        echo '    <button  onclick="window.location.href=\'Receipt(DONE).php?main_id=' . $maintenance_id . '\'" class="buttons">Receipt<span class="material-symbols-outlined">
-receipt
-</span></button>';
+        echo '    <button  onclick="window.location.href=\'my_receipt.php?main_id=' . $maintenance_id . '\'" class="buttons">Receipt<span class="material-symbols-outlined">
+    receipt
+    </span></button>';
         echo '  </div>';
         echo '</div>';
       }
@@ -183,6 +212,17 @@ receipt
       echo '<p>No previous appointments found.</p>';
       echo '</div>';
     }
+
+    // Pagination links
+    echo '<div class="pagination">';
+    for ($i = 1; $i <= $totalPages; $i++) {
+      if ($i == $currentPage) {
+      echo '<a href="my_booking.php?page=' . $i . '" class="activePage" style="background-color: red;">' . $i . '</a>';
+      } else {
+      echo '<a href="my_booking.php?page=' . $i . '">' . $i . '</a>';
+      }
+    }
+    echo '</div>';
     ?>
     </div>
 <!-- current appointments -->
@@ -194,13 +234,12 @@ receipt
       b.booking_date,b.booking_id,b.service_type,b.booking_time,
       c.car_plate,c.brand,c.model,
       p.payment_status,
-      u.user_id FROM user u 
-    JOIN car c ON u.user_id = c.user_id
-    JOIN payment p ON u.user_id= p.user_id
-    JOIN booking b ON c.car_plate = b.car_plate
-    JOIN maintenance m ON b.booking_id = m.booking_id
-    
-    WHERE m.progress = 'In Service' OR (m.progress = 'Done' AND payment_status = 'UNPAID')
+      u.user_id FROM maintenance m 
+    INNER JOIN booking b ON m.booking_id = b.booking_id
+    INNER JOIN car c ON b.car_plate = c.car_plate
+    INNER JOIN payment p ON m.maintenance_id = p.maintenance_id
+    INNER JOIN user u ON c.user_id = u.user_id
+    WHERE (m.progress = 'In Service' OR (m.progress = 'Done' AND payment_status = 'UNPAID')) AND u.user_id = '".$_SESSION['mySession']."'
     GROUP BY m.maintenance_id";
 
     $result = $con->query($sql);
@@ -215,26 +254,28 @@ receipt
         $service_type = $row['service_type'];
         $date = $row['booking_date'];
         $time = $row['booking_time'];
-        
         $maintenance_id = $row['maintenance_id'];
 
         echo '<div class="appointment">';
         echo '  <div class="car-info">';
-        echo '    <p>' . $car_plate . '</p>';
+        echo '    <p><b>' . $car_plate . '</b></p>';
         echo '    <div class="car-image">';
         echo '      <img src="images/car-icon.png" alt="Car">';
         echo '    </div>';
-        echo '    <p>'.$brand.' '. $model . '</p>';
+        echo '    <p><b>'.$brand.' '. $model . '</b></p>';
         echo '  </div>';
         echo '  <div class="service-info">';
         echo '    <p><b>Service Type: </b>' . $service_type . '</p>';
         echo '    <p><b>Service Date: </b>' . $date . '</p>';
         echo '    <p><b>Service Time: </b>' . $time . '</p>';
-        
-        if ($progress == 'Done') {
+        echo '  </div>';
+        echo '  <div class="actions">';
+        if ($progress == 'Done' ) {
             echo '    <button onclick="window.location.href=\'payment_page.php?maintenance_id=' . $maintenance_id . '&user_id=' . $_SESSION['mySession'] . '\'" class="buttons">Pay<span class="material-symbols-outlined">
-payments
-</span></button>';
+            payments
+            </span></button>';
+        }else{
+            echo '    <p><b>Progress: </b><span style="color: yellow; font-weight:bold;">' . $progress . '</span></p>';
         }
         echo '  </div>';
         echo '</div>';
@@ -252,13 +293,13 @@ payments
     include ("connection.php");
 
     $sql = "SELECT  
-          b.booking_date,b.booking_id,b.service_type,b.booking_time,
+          b.booking_date,b.booking_id,b.service_type,b.booking_time,b.booking_confirmation,
           c.car_plate,c.brand,c.model,
           u.user_id 
         FROM user u 
         JOIN car c ON u.user_id = c.user_id
         JOIN booking b ON c.car_plate = b.car_plate
-        WHERE b.booking_confirmation = 'Confirmed'";
+        WHERE (b.booking_confirmation = 'Confirmed' OR b.booking_confirmation = 'Pending') AND u.user_id = '".$_SESSION['mySession']."'" ;
     
 
     $result = $con->query($sql);
@@ -272,23 +313,29 @@ payments
         $service_type = $row['service_type'];
         $date = $row['booking_date'];
         $time = $row['booking_time'];
+        $booking_status = $row['booking_confirmation'];
 
 
         echo '<div class="appointment">';
         echo '  <div class="car-info">';
-        echo '    <p>' . $car_plate . '</p>';
+        echo '    <p><b>' . $car_plate . '</b></p>';
         echo '    <div class="car-image">';
         echo '      <img src="images/car-icon.png" alt="Car">';
         echo '    </div>';
-        echo '    <p>'.$brand.' '. $model . '</p>';
+        echo '    <p><b>'.$brand.' '. $model . '</b></p>';
         echo '  </div>';
         echo '  <div class="service-info">';
         echo '    <p><b>Service Type: </b>' . $service_type . '</p>';
         echo '    <p><b>Service Date: </b>' . $date . '</p>';
         echo '    <p><b>Service Time: </b>' . $time . '</p>';
+        if ($booking_status == 'Pending') {
+            echo '    <p><b>Booking Status: </b><span style="color: yellow; font-weight:bold;">' . $booking_status . '</span></p>';
+        } elseif ($booking_status == 'Confirmed') {
+            echo '    <p><b>Booking Status: </b><span style="color: green;font-weight:bold;">' . $booking_status . '</span></p>';
+        }
         echo '  </div>';
         echo '  <div class="actions">';
-        echo '    <button onclick="if(confirm(\'Are you sure you want to cancel this appointment?\')){window.location.href=\'delete_booking.php?booking_id=' . $booking_id . '\'}" class="buttons">Cancel<span class="material-symbols-outlined">
+        echo '    <button id="cancelButton" onclick="if(confirm(\'Are you sure you want to cancel this appointment?\')){window.location.href=\'delete_booking.php?booking_id=' . $booking_id . '\'}" class="buttons">Cancel<span class="material-symbols-outlined">
 delete
 </span></button>';
 

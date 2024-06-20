@@ -11,6 +11,12 @@ if (isset($_POST['start'])) {
     $bookingId = $_POST['booking_id'];
     $carPlate = $_POST['car_plate'];
     $query = "SELECT MAX(maintenance_id) AS max_id FROM maintenance";
+    $getUserID = "SELECT user.user_id FROM user 
+                    INNER JOIN car ON user.user_id = car.user_id 
+                    WHERE car.car_plate = '$carPlate'";
+    $resultID = mysqli_query($con, $getUserID);
+    $rowID = mysqli_fetch_assoc($resultID);
+    $getUserID = $rowID['user_id'];
     $result = mysqli_query($con, $query);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
@@ -20,12 +26,16 @@ if (isset($_POST['start'])) {
 
         $query = "INSERT INTO maintenance (maintenance_id, booking_id, item_id, progress)
                   VALUES ('$newMaintenanceId', '$bookingId',1, 'In Service')";
+        $paymentQuery = "INSERT INTO payment (maintenance_id, user_id, payment_status)
+                         VALUES ('$newMaintenanceId', '$getUserID', 'UNPAID')";
         $queryRun = mysqli_query($con, $query);
+        $paymentQueryRun = mysqli_query($con, $paymentQuery);
 
-        if (!$queryRun) {
+        if (!$queryRun || !$paymentQueryRun) {
             die("Error: " . mysqli_error($con));
         } else {
             $updateQuery = "UPDATE booking SET booking_confirmation = 'In Service' WHERE booking_id = '$bookingId'";
+            
             mysqli_query($con, $updateQuery);
             echo "<script>alert('Maintenance started successfully!');</script>";
             

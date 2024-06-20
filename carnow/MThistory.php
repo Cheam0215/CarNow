@@ -76,10 +76,9 @@ if ($result && mysqli_num_rows($result) > 0) {
             <div class="maintenance-history">
                 <?php
                 $sql = "SELECT * FROM maintenance m
-                        INNER JOIN booking b on b.booking_id = m.booking_id
-                        INNER JOIN car c on c.car_plate = b.car_plate
-                        WHERE service_details IS NOT NULL
-                        ";
+                                        INNER JOIN booking b on b.booking_id = m.booking_id
+                                        INNER JOIN car c on c.car_plate = b.car_plate
+                                        WHERE service_details IS NOT NULL LIMIT 10";
 
                 $result = mysqli_query($con, $sql);
                 if (mysqli_num_rows($result) > 0) {

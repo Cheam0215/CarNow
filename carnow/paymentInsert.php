@@ -17,9 +17,9 @@ if (isset($_POST['payment_button'])) {
     if (!mysqli_query($con, $sql)) {
         die('Error: ' . mysqli_error($con));
     } else {
-        echo "<script>alert('Payment Successful!');window.location.href='my_bookingnew.php';</script>";
+        echo "<script>alert('Payment Successful!');window.location.href='my_booking.php';</script>";
     }
 } else {
-    echo "<script>alert('Payment Failed!');window.location.href='my_bookingnew.php';</script>";
+    echo "<script>alert('Payment Failed!');window.location.href='my_booking.php';</script>";
 }
 ?>
