@@ -14,7 +14,7 @@ if (isset($_GET['main_id'])) {
     $sql = "DELETE FROM user WHERE user_id = $id";
 
     if ($con->query($sql) === TRUE) {
-        echo "<script>alert('User deleted successfully'); window.location.href = 'admin_user.php?user_id=2';</script>";
+        echo "<script>alert('User deleted successfully'); window.location.href = 'admin_user.php?user_id=1';</script>";
     } else {
         echo "Error deleting user: " . $con->error;
     }

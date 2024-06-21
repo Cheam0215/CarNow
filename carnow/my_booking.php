@@ -398,4 +398,3 @@ window.onclick = function(event) {
 </html>
 
     
-

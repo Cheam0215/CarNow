@@ -27,19 +27,37 @@
             '$_POST[contact_number]',
             '$_POST[ic_number]',
             '".$file_name."',
-            'staff')";
+            '$_POST[role]')";
           
 
 
           if (!mysqli_query($con, $sql)) {
             die('Error: ' . mysqli_error($con));
           } else {
-            echo "<script>alert('Staff information added successfully!');window.location.href='admin_user.php?user_id=2';</script>";
+            echo "<script>alert('" . strtoupper($_POST['role']) . " information added successfully!');window.location.href='admin_user.php?user_id=1';</script>";
           }
           } else {
-          echo "<script>alert('There was an error uploading your file.');window.location.href='admin_user.php?user_id=2';</script>";
-          }
+            $sql = "INSERT INTO user (
+              username,
+              email,
+              password,
+              contact_number,
+            ic_number,
+            role
+            )
+             VALUES (
+              '$_POST[name]',
+              '$_POST[email]',
+              '$hashed_password',
+                '$_POST[contact_number]',
+                '$_POST[ic_number]',
+                '$_POST[role]')";
+
+
+          if (!mysqli_query($con, $sql)) {
+            die('Error: ' . mysqli_error($con));
           } else {
-          echo "Sorry, there was an error uploading your file.";
+              echo "<script>alert('" . strtoupper($_POST['role']) . " information added successfully!');window.location.href='admin_user.php?user_id=1';</script>";
           }
+          } }
 ?>
