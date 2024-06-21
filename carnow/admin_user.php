@@ -269,13 +269,16 @@ if ($result && $result->num_rows > 0) {
     echo '            <label for="contact_number">Contact Number:</label>';
     echo '            <input type="text" id="contact_number" name="contact_number" required><br><br>';
     echo '            <label for="role">Role:</label>';
-    echo '            <input type="text" id="role" name="role" required><br><br>';
+    echo '            <select id="role" name="role" required>';
+    echo '                <option value="user">User</option>';
+    echo '                <option value="staff">Staff</option>';
+    echo '            </select><br><br>';
     echo '            <label for="ic_number">IC Number:</label>';
-    echo '            <input type="text" id="ic_number" name="ic_number" required><br><br>';
+    echo '            <input type="text" id="ic_number" name="ic_number" required pattern="[0-9]{6}-[0-9]{2}-[0-9]{4}"><br><br>';
     echo '            <label for="picture">Picture:</label>';
     echo '            <input type="file" id="picture" name="user_image"><br><br>';
     echo '            <button type="submit" name="add-staff-button" id="addStaffBtn">Add Staff</button>';
-    echo '        </form>';
+    echo '        </form>'; 
     echo '    </div>';
     echo '</div>';
 
@@ -296,7 +299,7 @@ if ($result && $result->num_rows > 0) {
     echo '            <label for="updateRole">Role:</label>';
     echo '            <input type="text" id="updateRole" name="role" value="' . $role . '" required><br><br>';
     echo '            <label for="updateIcNumber">IC Number:</label>';
-    echo '            <input type="text" id="updateIcNumber" name="ic_number" value="' .$ic_number . '" required><br><br>';
+    echo '            <input type="text" id="updateIcNumber" name="ic_number" value="' .$ic_number . '" required pattern="[0-9]{6}-[0-9]{2}-[0-9]{4}><br><br>';
     echo '            <label for="updatePicture">Picture:</label>';
     echo '            <input type="file" id="updatePicture" name="user_image" value="' .$picture. '" ><br><br>';
     echo '            <input type="submit" name="update_user" >';

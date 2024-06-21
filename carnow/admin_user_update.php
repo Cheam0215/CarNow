@@ -1,44 +1,5 @@
 <?php
 
-// include("connection.php");
-
-// if ($con->connect_error) {
-//     die("Connection failed: " . $con->connect_error);
-// }
-
-
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  
-//     $user_id = $_POST['user_id']; 
-//     $name = $_POST['name'];
-//     $email = $_POST['email'];
-//     $password = $_POST['password'];
-//     $contact_number = $_POST['contact_number'];
-//     $ic_number = $_POST['ic_number'];
-//     $picture = $_POST['user_image'];
-//     $role = $_POST['role'];
-
-
-//     $sql = "UPDATE user SET 
-//                 username = '$name', 
-//                 email = '$email', 
-//                 password = '$password',
-//                 contact_number = '$contact_number', 
-//                 ic_number = '$ic_number', 
-//                 user_image = '$picture', 
-//                 role = '$role' 
-//             WHERE user_id = $user_id";
-
-//     if ($con->query($sql) === TRUE) {
-//         echo "<script>alert('User updated successfully!');window.location.href='admin_user.php?user_id=$user_id';</script>";
-//     } else {
-//         echo "Error: " . $sql . "<br>" . $con->error;
-//     }
-
-//     $con->close();
-
-// }
 include("connection.php");
 
 if (isset($_POST['update_user'])) {

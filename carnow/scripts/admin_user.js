@@ -139,3 +139,13 @@ document.getElementById('updateInfoLink').onclick = function() {
                     if (event.target == document.getElementById('updatePopOutWindow')) {
                         document.getElementById('updatePopOutWindow').style.display = 'none';}}
 
+
+function validate_ic($ic) {
+    $regex = '/^[0-9]{6}-[0-9]{2}-[0-9]{4}$/';
+    
+    if (preg_match($regex, $ic)) {
+        return true;
+    } else {
+        return false;
+    }
+}
