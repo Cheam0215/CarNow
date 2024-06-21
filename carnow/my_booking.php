@@ -220,15 +220,17 @@ if ($result && $result->num_rows > 0) {
     }
 
     // Pagination links
-    echo '<div class="pagination">';
-    for ($i = 1; $i <= $totalPages; $i++) {
-      if ($i == $currentPage) {
-      echo '<a href="my_booking.php?page=' . $i . '" class="activePage" style="background-color: red;">' . $i . '</a>';
-      } else {
-      echo '<a href="my_booking.php?page=' . $i . '">' . $i . '</a>';
+    if ($currentPage > 1) {
+      echo '<div class="pagination">';
+      for ($i = 1; $i <= $totalPages; $i++) {
+        if ($i == $currentPage) {
+          echo '<a href="my_booking.php?page=' . $i . '" class="activePage" style="background-color: red;">' . $i . '</a>';
+        } else {
+          echo '<a href="my_booking.php?page=' . $i . '">' . $i . '</a>';
+        }
       }
+      echo '</div>';
     }
-    echo '</div>';
     ?>
     </div>
 <!-- current appointments -->
@@ -396,5 +398,4 @@ window.onclick = function(event) {
 </html>
 
     
-
 
