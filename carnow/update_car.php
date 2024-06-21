@@ -12,7 +12,11 @@ if (isset($_POST['update-car-button'])) {
 
   if (!mysqli_query($con, $updateSql)) {
     die('Error updating car information: ' . mysqli_error($con));
-  } else {
+  } 
+  else if (mysqli_affected_rows($con) == 0){
+    echo "<script>alert('Please make sure you make changes.');window.location.href='my_profile.php';</script>";
+  }
+  else {
     echo "<script>alert('Car information updated successfully!');window.location.href='my_profile.php';</script>";
   }
 }
