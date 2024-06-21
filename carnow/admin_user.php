@@ -29,7 +29,7 @@
     </div>
 
     <div class="sidebar">
-        <a href="Admin_Page.php">
+        <a href="admin_page.php">
             <span class="material-symbols-sharp">
                 dashboard
             </span>
