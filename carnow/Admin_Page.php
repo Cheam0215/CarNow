@@ -121,7 +121,7 @@
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="admin_user.php?user_id=2">
+                <a href="admin_user.php?user_id=1">
                     <span class="material-symbols-sharp">
                         person_outline
                     </span>
