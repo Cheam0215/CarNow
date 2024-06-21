@@ -25,6 +25,16 @@ function validate_ic($ic) {
     }
 }
 
+function validate_password($password) {
+    $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/';
+    
+    if (preg_match($regex, $password)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 include("connection.php");
 
 if(isset($_POST['sign-up-button'])){
@@ -32,7 +42,8 @@ if(isset($_POST['sign-up-button'])){
 
     $username = $_POST['username'];
     $email = $_POST['useremail'];
-    $password = ($_POST['userpassword']);       
+    $password = ($_POST['userpassword']);
+    $confirm_password = ($_POST['confirmpassword']);       
     $usercontact = $_POST['usercontact'];
     $useric = $_POST['useric'];
     $role = "user";
@@ -45,7 +56,12 @@ if(isset($_POST['sign-up-button'])){
         echo '<script type="text/javascript"> alert("Email already exists. Please use a different email.") </script>';
     } else if (!validate_ic($useric)) {
         echo '<script type="text/javascript"> alert("Invalid IC Number. Please enter a valid IC Number.") </script>';
-    } else {
+    } else if ($password != $confirm_password) {
+        echo '<script type="text/javascript"> alert("Please make sure your confirm password is samea as your password!!.") </script>';
+    } else if (!validate_password($password)) {
+        echo '<script type="text/javascript"> alert("Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number.") </script>';
+    }
+        else {
         $query = "INSERT INTO user (username, email, password, contact_number, ic_number, role) 
         VALUES ('$username', '$email', '$password', '$usercontact', '$useric', '$role')";
         $query_run = mysqli_query($con, $query);
@@ -105,6 +121,7 @@ if (isset($_POST['sign-in-button'])) {
             <input type="text" name="username" placeholder="Name" required>
             <input type="email" placeholder="Email" name="useremail" required>
             <input type="password" placeholder="Password" name="userpassword" required>
+            <input type="password" placeholder="Confirm Password" name="confirmpassword" required>
             <input type="tel" placeholder="Contact Number" name="usercontact" required>
             <input type="text" placeholder="IC Number Eg.040215-10-0575" name="useric" required>
             <button type="submit" name="sign-up-button">Sign Up</button>
