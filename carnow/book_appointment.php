@@ -26,11 +26,11 @@
         $booking_confirmation = "Pending";
         $car_description = $_POST['hidden-description'];
 
-        $check_booking_query = "SELECT * FROM booking WHERE booking_date = '$date' AND booking_time = '$time' AND car_plate = '$car_plate'";
+        $check_booking_query = "SELECT * FROM booking WHERE booking_date = '$date' AND booking_time = '$time'";
         $check_booking_query_run = mysqli_query($con, $check_booking_query);
 
         if(mysqli_num_rows($check_booking_query_run) > 0) {
-            echo '<script type="text/javascript"> alert("Booking Already Exists") </script>';
+            echo '<script type="text/javascript"> alert("Your chosen booking time is already reserved! Please select another timeslot!") </script>';
         } else{
             $query = "INSERT INTO booking (car_plate, service_type, booking_date, booking_time, booking_confirmation, booking_description) 
             VALUES ('$car_plate', '$service_type', '$date', '$time', '$booking_confirmation', '$car_description')";
